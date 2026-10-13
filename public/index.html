@@ -158,6 +158,36 @@ section{padding-block:clamp(64px,9vw,108px)}
 .marks span{font-family:var(--f-display);font-weight:700;font-stretch:85%;font-size:20px;padding:12px 18px;border:1px solid var(--line);border-radius:12px;background:var(--surface)}
 .marks span.more{font-family:var(--f-mono);font-size:13px;font-weight:400;color:var(--muted);align-self:center;border:0;background:none}
 @media (max-width:860px){.partners{grid-template-columns:1fr}}
+.manifesto{padding-block:clamp(48px,7vw,88px);border-top:1px solid var(--line)}
+.manifesto .wrap{display:grid;grid-template-columns:.8fr 1.2fr;gap:clamp(24px,5vw,64px);align-items:start}
+.manifesto .wrap > *{min-width:0}
+.manifesto blockquote{margin:0;font-family:var(--f-display);font-weight:700;font-stretch:85%;font-size:clamp(22px,2.6vw,30px);line-height:1.3;text-wrap:pretty}
+.manifesto blockquote em{font-style:normal;color:var(--rose-ink)}
+.manifesto cite{display:block;margin-top:16px;font-style:normal;font-family:var(--f-mono);font-size:12px;letter-spacing:.1em;text-transform:uppercase;color:var(--muted)}
+.trusted{border-block:1px solid var(--line);background:var(--surface);padding-block:22px;overflow:hidden}
+.trusted .wrap{display:flex;gap:18px;align-items:center}
+.trusted .lbl{font-family:var(--f-mono);font-size:11px;letter-spacing:.12em;text-transform:uppercase;color:var(--rose-ink);white-space:nowrap}
+.trusted ul{list-style:none;margin:0;padding:0;display:flex;flex-wrap:wrap;gap:6px 22px;font-family:var(--f-display);font-weight:700;font-stretch:85%;font-size:17px;color:var(--muted)}
+@media (max-width:700px){.trusted .wrap{flex-direction:column;align-items:flex-start}.manifesto .wrap{grid-template-columns:1fr}}
+.gallery{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));grid-auto-rows:clamp(160px,18vw,230px);gap:12px;margin-top:40px}
+.gallery figure{margin:0;border-radius:14px;overflow:hidden;position:relative;background:var(--line);min-width:0}
+.gallery img{width:100%;height:100%;object-fit:cover}
+.gallery figcaption{position:absolute;left:10px;bottom:10px;right:10px;width:fit-content;max-width:calc(100% - 20px);font-family:var(--f-mono);font-size:11px;letter-spacing:.05em;text-transform:uppercase;color:#fff;background:rgba(15,15,15,.62);padding:6px 9px;border-radius:6px}
+.gallery .w2{grid-column:span 2}.gallery .h2{grid-row:span 2}
+@media (max-width:860px){.gallery{grid-template-columns:repeat(2,minmax(0,1fr));grid-auto-rows:clamp(150px,40vw,220px)}}
+.kitchens{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:18px;margin-top:40px}
+.kcard{background:color-mix(in srgb,var(--on-band) 6%,var(--band));border:1px solid color-mix(in srgb,var(--on-band) 16%,var(--band));border-radius:16px;overflow:hidden;display:flex;flex-direction:column;min-width:0}
+.kcard .ph{aspect-ratio:4/3;max-width:100%;overflow:hidden}
+.kcard .ph img{width:100%;height:100%;object-fit:cover}
+.kcard .bd{padding:18px 18px 20px;display:flex;flex-direction:column;gap:10px;flex:1}
+.kcard p{color:var(--band-muted);font-size:15px}
+.kcard .eq{font-size:13.5px;color:var(--band-muted)}
+.kcard .eq b,.kcard .cl b{color:var(--on-band);font-weight:600}
+.kcard .cl{font-size:13.5px;color:var(--band-muted);margin-top:auto;padding-top:10px;border-top:1px solid color-mix(in srgb,var(--on-band) 16%,var(--band))}
+@media (max-width:960px){.kitchens{grid-template-columns:1fr 1fr}}
+@media (max-width:600px){.kitchens{grid-template-columns:1fr}}
+.originals{display:flex;flex-wrap:wrap;gap:8px;margin-top:22px}
+.originals span{font-size:14px;padding:7px 13px;border-radius:999px;border:1px solid var(--line);background:var(--surface)}
 footer{padding-block:32px 44px;font-size:14px;color:var(--muted)}
 footer .wrap{display:flex;flex-wrap:wrap;gap:16px 32px;justify-content:space-between;align-items:center}
 footer img{height:40px;width:auto}
@@ -169,7 +199,7 @@ footer img{height:40px;width:auto}
 <header class="nav">
   <div class="wrap">
     <a href="#top" aria-label="KitchenWhiz home"><img class="logo-light" src="images/logo.png" alt="KitchenWhiz, since 1977, living kitchens"><img class="logo-dark" src="images/logo-light.png" alt="KitchenWhiz, since 1977, living kitchens"></a>
-    <nav aria-label="Main"><a href="#about">Our story</a><a href="#services">What we do</a><a href="#brands">Brands</a><a href="#showroom">Showroom</a><a href="#contact">Contact</a></nav>
+    <nav aria-label="Main"><a href="#about">Our story</a><a href="#projects">Projects</a><a href="#services">What we do</a><a href="#brands">Brands</a><a href="#showroom">Showroom</a><a href="#contact">Contact</a></nav>
     <a class="btn btn-rose" href="#contact">Talk to us</a>
   </div>
 </header>
@@ -202,6 +232,23 @@ footer img{height:40px;width:auto}
   </div>
 </section>
 
+<div class="trusted" aria-label="Some of our clients">
+  <div class="wrap">
+    <span class="lbl">Trusted by</span>
+    <ul><li>Taj West End</li><li>Sheraton</li><li>DoubleTree by Hilton</li><li>Holiday Inn</li><li>Bangalore Club</li><li>ITC</li><li>MTR</li><li>Akshaya Patra</li><li>Toit</li><li>Yuki</li><li>Glen's Bakehouse</li><li>Lavonne</li></ul>
+  </div>
+</div>
+
+<section class="manifesto">
+  <div class="wrap">
+    <div><p class="eyebrow">We live kitchens</p><h2>Kitchens are in our blood</h2></div>
+    <div>
+      <blockquote>Since 1977 we have helped restaurants and other commercial establishments build and maintain their kitchens, and been an active part of their growth. For this industry, <em>downtime is perilous</em>. So we make sure our kitchens don't just evolve, they stay living, breathing ones.</blockquote>
+      <cite>Be a part of our living kitchens</cite>
+    </div>
+  </div>
+</section>
+
 <section class="story" id="about">
   <div class="wrap split">
     <div>
@@ -226,6 +273,25 @@ footer img{height:40px;width:auto}
   </div>
 </section>
 
+<section id="projects" style="padding-top:0">
+  <div class="wrap">
+    <p class="eyebrow">Our living kitchens</p>
+    <h2>Kitchens we've built</h2>
+    <p class="lede">A few of the kitchens and bars we have designed, built and installed across Bengaluru, from microbreweries and pizzerias to bakeries and QSR chains.</p>
+    <div class="gallery">
+      <figure class="w2 h2"><img src="images/p-geist.jpg" alt="Geist Brewing Co. kitchen line built by KitchenWhiz" width="1300" height="975" loading="lazy"><figcaption>Geist Brewing Co.</figcaption></figure>
+      <figure class="h2"><img src="images/p-brik-oven.jpg" alt="Brik Oven pizzeria kitchen with wood-fired oven" width="975" height="1300" loading="lazy"><figcaption>Brik Oven</figcaption></figure>
+      <figure><img src="images/p-toit.jpg" alt="Bar counter at Toit" width="1300" height="975" loading="lazy"><figcaption>Toit</figcaption></figure>
+      <figure><img src="images/p-glens.jpg" alt="Glen's Bakehouse kitchen" width="1300" height="975" loading="lazy"><figcaption>Glen's Bakehouse</figcaption></figure>
+      <figure class="h2"><img src="images/p-milano.jpg" alt="Baker pulling a tray of pastries at Milano" width="975" height="1300" loading="lazy"><figcaption>Milano</figcaption></figure>
+      <figure class="w2"><img src="images/p-imperio.jpg" alt="Imperio QSR kitchen" width="1300" height="986" loading="lazy"><figcaption>Imperio</figcaption></figure>
+      <figure><img src="images/p-flame.jpg" alt="Chef cooking over a high-flame burner" width="975" height="1300" loading="lazy"><figcaption>Live cooking line</figcaption></figure>
+      <figure class="w2"><img src="images/p-restaurant.jpg" alt="Restaurant kitchen with stainless-steel line" width="1300" height="975" loading="lazy"><figcaption>Restaurant kitchen</figcaption></figure>
+      <figure><img src="images/p-cafe-display.jpg" alt="Cake display counter in a café" width="975" height="1300" loading="lazy"><figcaption>Café display</figcaption></figure>
+    </div>
+  </div>
+</section>
+
 <section id="services">
   <div class="wrap">
     <p class="eyebrow">What we do</p>
@@ -238,6 +304,8 @@ footer img{height:40px;width:auto}
       <div class="step"><h3>Install</h3><p>Delivery, placement, exhaust hoods, ducting and fire suppression, commissioned on site.</p></div>
       <div class="step"><h3>Train &amp; service</h3><p>Equipment training for your chefs, then maintenance and spares.</p></div>
     </div>
+    <p class="lede" style="margin-top:40px"><b style="color:var(--ink)">KW Originals.</b> Our in-house design team studies ergonomics, aesthetics, function and the pain points of each kitchen, and keeps improving designs from client feedback and current trends.</p>
+    <div class="originals"><span>Robata grill</span><span>Six burner range</span><span>Bain marie</span><span>Prep counter</span><span>Cocktail station</span><span>Bakery trolley</span></div>
     <div class="renders">
       <figure><img src="images/line-render-1.jpg" alt="3D render of a cooking line with burner ranges, sink and work tables" width="1150" height="594" loading="lazy"><figcaption>Every line is drawn in 3D before it is built.</figcaption></figure>
       <figure><img src="images/line-render-2.jpg" alt="3D render of a Chinese and continental cooking line" width="1064" height="513" loading="lazy"><figcaption>Sizes are matched to your site, down to the millimetre.</figcaption></figure>
@@ -245,18 +313,18 @@ footer img{height:40px;width:auto}
   </div>
 </section>
 
-<section class="sectors">
+<section class="sectors" id="kitchens">
   <div class="wrap">
-    <p class="eyebrow">Kitchens we build</p>
+    <p class="eyebrow">Commercial kitchen solutions</p>
     <h2>Every format, every cuisine</h2>
     <p class="lede">The layout starts from how your team cooks and serves, whether it's a café counter or a central kitchen.</p>
-    <div class="sector-grid">
-      <div><h3>Restaurants &amp; hotels</h3><p>Indian, Chinese, continental and multi-cuisine lines, banquet and room-service kitchens.</p></div>
-      <div><h3>Bakeries</h3><p>Oven, proofing and prep areas, with deck-oven tables, tray trolleys and bakery tables.</p></div>
-      <div><h3>Pizzerias</h3><p>Prep, topping and oven stations laid out for a fast pass.</p></div>
-      <div><h3>Cafés</h3><p>Compact back-of-house, display counters and coffee bars.</p></div>
-      <div><h3>Micro-breweries &amp; bars</h3><p>Kitchens plus Barwhiz cocktail stations, glass washing and bar storage.</p></div>
-      <div><h3>Cloud, QSR &amp; central kitchens</h3><p>High-throughput lines and multi-brand kitchens in small footprints.</p></div>
+    <div class="kitchens">
+      <article class="kcard"><div class="ph"><img src="images/p-restaurant.jpg" alt="Restaurant kitchen line" width="1300" height="975" loading="lazy"></div><div class="bd"><h3>Restaurants &amp; hotels</h3><p>Pan Asian, continental, Indian, Mediterranean and more. From compact to large spaces, designed for efficiency with an eye on aesthetics, modular and tailor-made to any space.</p><p class="eq"><b>Equipment:</b> Burners, veg cutters, meat mincers, refrigeration, ovens, dishwashers, exhaust and fresh air.</p><p class="cl"><b>Clients include:</b> Taj West End, Sheraton, DoubleTree by Hilton, Holiday Inn, Bangalore Club, KGA, China Pearl, Monkey Bar, Yuki</p></div></article>
+      <article class="kcard"><div class="ph"><img src="images/p-bakery-oven.jpg" alt="Bakery with racks and oven" width="975" height="1300" loading="lazy"></div><div class="bd"><h3>Bakeries</h3><p>From mass production, high-end restaurants and microbreweries to artisanal and home bakers. Combi ovens now keep every batch consistent.</p><p class="eq"><b>Equipment:</b> Ovens, mixers, sheeters, slicers, proofers, refrigeration, tables and racks.</p><p class="cl"><b>Clients include:</b> ITC Sunfeast, Lavonne, Thom's Bakery, Glen's Bakehouse, Milano, Loafer &amp; Co.</p></div></article>
+      <article class="kcard"><div class="ph"><img src="images/p-pizzeria.jpg" alt="Pizzeria kitchen with wood-fired oven" width="1300" height="975" loading="lazy"></div><div class="bd"><h3>Pizzerias</h3><p>Customised wood-fired ovens, prep counters and coffee machines that complete the Italian feel.</p><p class="eq"><b>Equipment:</b> Wood-fired and conventional ovens, kneaders, refrigeration, display counters, wine chillers.</p><p class="cl"><b>Clients include:</b> Brik Oven, Holy Doh, Thin Tony, Go Pizza</p></div></article>
+      <article class="kcard"><div class="ph"><img src="images/p-cafe-display.jpg" alt="Café cake display" width="975" height="1300" loading="lazy"></div><div class="bd"><h3>Cafés</h3><p>Front-of-house food display with tabletop cooking and dispensing equipment. Speed ovens give fast turnaround without losing texture.</p><p class="eq"><b>Equipment:</b> Display counters, coffee machines, ovens, ice machines, blenders, grillers, waffle and crepe makers.</p><p class="cl"><b>Clients include:</b> Coffee Tales, Café Noir, Lavonne Café, Milano, Paper and Pie</p></div></article>
+      <article class="kcard"><div class="ph"><img src="images/p-toit.jpg" alt="Bar at Toit" width="1300" height="975" loading="lazy"></div><div class="bd"><h3>Micro-breweries &amp; bars</h3><p>Bars are the showcase, so we make them eye-catching and ergonomic for tight spaces. Cocktail stations let the barman dispense with speed.</p><p class="eq"><b>Equipment:</b> Cold rooms, towers and taps, flash chillers, kegerators, cocktail stations, glass washers, wine chillers.</p><p class="cl"><b>Clients include:</b> Toit, Geist, BYG Brewsky, The Bier Library, Jamming Goat, 13th Floor, Tipsy Bull</p></div></article>
+      <article class="kcard"><div class="ph"><img src="images/p-imperio.jpg" alt="QSR kitchen" width="1300" height="986" loading="lazy"></div><div class="bd"><h3>Cloud, QSR &amp; central kitchens</h3><p>A complete solution for the hub-and-spoke model, so brands can scale to many outlets without a full kitchen at each one.</p><p class="eq"><b>Equipment:</b> Tables, sinks, racks, dishwashers, burners, veg cutters, refrigeration, ovens, exhaust.</p><p class="cl"><b>Clients include:</b> Akshaya Patra, ITC Aashirvaad, ITC Master Chef, MTR, Imperio, GRB, Potful Biryani</p></div></article>
     </div>
   </div>
 </section>
