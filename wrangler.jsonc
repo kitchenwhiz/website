@@ -1,13 +1,18 @@
 {
-  // Static website for commercialkitchens.co.in, served by Cloudflare Workers (static assets only, no server code).
+  // KitchenWhiz website. Main address: kitchenwhiz.in. Other addresses redirect to it (src/worker.js).
   "name": "website",
+  "main": "src/worker.js",
   "compatibility_date": "2026-10-01",
   "assets": {
     "directory": "./public",
-    "not_found_handling": "404-page"
+    "binding": "ASSETS",
+    "not_found_handling": "404-page",
+    "run_worker_first": true
   },
   "workers_dev": true,
   "routes": [
+    { "pattern": "kitchenwhiz.in", "custom_domain": true },
+    { "pattern": "www.kitchenwhiz.in", "custom_domain": true },
     { "pattern": "commercialkitchens.co.in", "custom_domain": true },
     { "pattern": "www.commercialkitchens.co.in", "custom_domain": true }
   ]

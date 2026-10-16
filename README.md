@@ -1,14 +1,16 @@
-# KitchenWhiz website (commercialkitchens.co.in)
+# KitchenWhiz website
 
-Plain static website (HTML, CSS, images; no build step) for Unique Steel Products / KitchenWhiz.
+Static website for Unique Steel Products / KitchenWhiz. Main address: **https://kitchenwhiz.in**.
 
-- `public/` is the site: `index.html`, `404.html`, `images/`.
-- `wrangler.jsonc` deploys `public/` to Cloudflare Workers as static assets.
+- `public/` is the site: `index.html`, `404.html`, `images/`, `robots.txt`, `sitemap.xml`.
+- `src/worker.js` serves `public/` and redirects (301) www.kitchenwhiz.in, commercialkitchens.co.in and
+  www.commercialkitchens.co.in to the same page on kitchenwhiz.in.
+- `wrangler.jsonc` attaches all four addresses to the Worker `website` as custom domains.
 
 ## Publish
-Cloudflare → Workers & Pages → Create → Import a repository → `kitchenwhiz/website`.
-Build command: none. Deploy command: `npx wrangler deploy`. Every push to `main` redeploys.
-Then Settings → Domains & Routes → add `commercialkitchens.co.in` and `www.commercialkitchens.co.in`.
+Every push to `main` runs `.github/workflows/deploy.yml`, which runs `wrangler deploy` with the repository
+secrets `CLOUDFLARE_API_TOKEN` and `CLOUDFLARE_ACCOUNT_ID`. Check results under the **Actions** tab.
 
 ## Edit
-Change `public/index.html` or replace files in `public/images/` (lowercase names, no spaces, web-sized images), then commit to `main`.
+Change `public/index.html` or replace files in `public/images/` (lowercase names, no spaces, web-sized images),
+then commit to `main`.
