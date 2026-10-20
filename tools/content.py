@@ -103,7 +103,7 @@ COMMON_FAQ = [
     ("Do you make equipment to custom sizes?",
      "Yes. Work tables, burner ranges, sinks, racks, hoods and counters are fabricated in our Bommasandra factory in SS202 or SS304, to the exact sizes of your site."),
     ("Can we see the equipment before we buy?",
-     'Yes. Our 10,000 sq ft <a href="/showroom">showroom and demo centre</a> in Bommasandra has Indian and imported equipment on display, and your chef can try it in a live demo. Call ahead for a demo slot.'),
+     'Yes. Our 20,000 sq ft <a href="/showroom">showroom and demo centre</a> in Bommasandra has Indian and imported equipment on display, and your chef can try it in a live demo. Call ahead for a demo slot.'),
     ("Do you install exhaust and fire suppression too?",
      "Yes. Installation covers placement, exhaust hoods, ducting and fire suppression, and we commission the kitchen on site before handing over."),
     ("What should I send to get a quote?",
@@ -347,8 +347,10 @@ def pages():
          'Yes. We consult, design the layout and MEP points, draw the line in 3D, fabricate, install, train your team and service the kitchen afterwards. <a href="/commercial-kitchens">How we plan a kitchen</a>.'),
         ("What kinds of businesses do you work with?",
          'Restaurants, hotels and clubs, bakeries, pizzerias, cafés, bars and microbreweries, cloud kitchens, QSR chains, central kitchens and institutional kitchens such as hospitals.'),
+        ("How big is your showroom?",
+         'Our showroom in Bommasandra has been expanded to 20,000 sq ft. It has Indian and imported equipment for every kind of kitchen, a demo centre, the UNOX Lounge and the Barwhiz bar studio. <a href="/showroom">Plan your visit</a>.'),
         ("Can I see and try equipment before buying?",
-         'Yes. Our 10,000 sq ft <a href="/showroom">showroom</a> has a demo centre and the UNOX Lounge, where chefs can cook on the equipment before they buy. Call ahead for a demo slot.'),
+         'Yes. Our 20,000 sq ft <a href="/showroom">showroom</a> has a demo centre and the UNOX Lounge, where chefs can cook on the equipment before they buy. Call ahead for a demo slot.'),
         ("Which stainless steel grades do you use?",
          'Custom equipment is built in SS202 or SS304 depending on the use and budget. Our budget <a href="/usp-ecoline">USP Ecoline</a> range uses SS430.'),
     ]
@@ -392,7 +394,7 @@ def p_about():
            "In-house manufacturing of custom equipment, so a kitchen can be designed to fit any space.",
            "We represent many major Indian and international equipment makers.",
            "If something isn't available here, we source it from anywhere in the world, as we have for several clients.",
-           "A 10,000 sq ft showroom where you can compare choices first-hand.",
+           "A 20,000 sq ft showroom where you can compare choices first-hand.",
            "A demo centre with product trials across a variety of cuisines."]
     body = hero("About us · Since 1977", "From an SJP Road shop to <em>living kitchens</em>",
                 "KitchenWhiz is the commercial kitchen brand of Unique Steel Products, a Bengaluru family business now in its second generation. Close to 100 people cover design, projects, sales, manufacturing and service.",
@@ -405,7 +407,7 @@ def p_about():
 <div><p class="eyebrow">Our story</p><h2>A Bengaluru family business</h2>
 <div class="prose" style="margin-top:18px"><p>Shabbir Madraswala started Trade Links Corporation in 1977 from a small shop on SJP Road, trading hardware, tools and safety products. Shireen Madraswala later took charge of sales and customer relationships, and built the trust the business still runs on.</p>
 <p>Today the company is led by Huzefa Madraswala. Our aim is simple: to stay at the forefront of commercial kitchens, and be an invaluable part of our clients' living kitchens.</p></div>
-<div class="facility"><div class="bar" role="img" aria-label="35,000 sq ft facility: 10,000 manufacturing, 10,000 showroom, 15,000 warehouse"><div class="f1">Factory 10k</div><div class="f2">Showroom 10k</div><div class="f3">Warehouse 15k</div></div><p>How our 35,000 sq ft facility in Bommasandra is split.</p></div></div>
+<p class="facility-note">Factory, 20,000 sq ft showroom and warehouse together on one campus in Bommasandra.</p></div>
 <div><ul class="timeline">
 <li><b>1977</b><span><strong>Trade Links Corporation</strong>A small trading shop on SJP Road, Bengaluru.</span></li>
 <li><b>1988</b><span><strong>Into manufacturing</strong>A move to an industrial shed in Bommasandra to build stainless-steel stoves, then commercial kitchen equipment. KitchenWhiz is born.</span></li>
@@ -419,10 +421,10 @@ def p_about():
 <section class="trusted"><div class="wrap"><p class="eyebrow">Trusted by</p><h2 class="trusted-title">Hotels, clubs, chains and neighbourhood favourites</h2>''' + _logos() + '''</div></section>
 '''
     body += cards([("/commercial-kitchens", "Commercial kitchens", "How we plan and build a kitchen"),
-                   ("/showroom", "Showroom", "10,000 sq ft and a demo centre"),
+                   ("/showroom", "Showroom", "20,000 sq ft and a demo centre"),
                    ("/living-kitchens", "Projects", "Kitchens we've built")], "Next", "See our work").replace('style="padding-top:0"', "", 1)
     return dict(path="/about-us", file="about-us.html", title="About KitchenWhiz | Commercial Kitchen Makers in Bangalore since 1977",
-                desc="KitchenWhiz (Unique Steel Products) has built commercial kitchens in Bengaluru since 1977: a family business with a 35,000 sq ft factory, showroom and warehouse in Bommasandra and close to 100 people.",
+                desc="KitchenWhiz (Unique Steel Products) has built commercial kitchens in Bengaluru since 1977: a family business with its own factory, a 20,000 sq ft showroom and a warehouse in Bommasandra and close to 100 people.",
                 body=body, crumbs=[("/", "Home"), (None, "About us")],
                 ld=[{"@context": "https://schema.org", "@type": "AboutPage", "url": SITE + "/about-us", "about": {"@id": SITE + "/#business"}}])
 
@@ -460,7 +462,7 @@ def p_contact():
 
 def p_showroom():
     body = hero("Showroom & demo centre · Bommasandra, Bengaluru", "Cook on it <em>before</em> you buy it",
-                "10,000 sq ft of Indian and international commercial kitchen equipment for any cuisine and any kind of food service, with a demo centre for live trials. Bring your chef and test the line.",
+                "20,000 sq ft of Indian and international commercial kitchen equipment for any cuisine and any kind of food service, with a demo centre for live trials. Bring your chef and test the line.",
                 photo("showroom.jpg", "KitchenWhiz showroom with burner ranges and cooking lines", 1400, 933, "KitchenWhiz showroom, Bommasandra"),
                 [("/contact", "Book a visit", "btn-rose"), (MAPS, "Get directions", "btn-line")])
     body += '''<section class="band"><div class="wrap">
@@ -483,10 +485,19 @@ def p_showroom():
 <p><strong>Hours:</strong> Monday to Saturday, 9:00 am to 5:30 pm. Closed on Sundays.</p>
 <p><strong>Demos:</strong> call <a href="tel:+919902014700">99020 14700</a> to book a slot, so the right equipment is set up and a specialist is free.</p></div>
 </div></section>'''
+    faqs = [("How big is the KitchenWhiz showroom?",
+             "20,000 sq ft, after our recent expansion, with our factory and warehouse on the same campus."),
+            ("What can I see there?",
+             "Indian and imported equipment for every kind of kitchen, our own KitchenWhiz, Barwhiz, HeatKO and USP ranges, the UNOX Lounge for oven demos, and the Barwhiz bar studio with more than 10 cocktail station designs."),
+            ("Can my chef cook on the equipment?",
+             'Yes. The demo centre is set up for live trials across a variety of cuisines. Call <a href="tel:+919902014700">99020 14700</a> to book a slot so the right equipment is ready.'),
+            ("When is the showroom open?",
+             'Monday to Saturday, 9:00 am to 5:30 pm, at 235/E Bommasandra Industrial Area, Phase 3, Bengaluru 560099. Closed on Sundays.')]
+    body += faq_html(faqs, "Showroom: common questions")
     return dict(path="/showroom", file="showroom.html", og="showroom.jpg",
                 title="Commercial Kitchen Equipment Showroom in Bangalore | KitchenWhiz",
-                desc="Visit KitchenWhiz's 10,000 sq ft commercial kitchen equipment showroom and demo centre in Bommasandra, Bangalore. Try UNOX ovens in the UNOX Lounge and Barwhiz cocktail stations before you buy.",
-                body=body, crumbs=[("/", "Home"), (None, "Showroom")])
+                desc="Visit KitchenWhiz's 20,000 sq ft commercial kitchen equipment showroom and demo centre in Bommasandra, Bangalore. Try UNOX ovens in the UNOX Lounge and Barwhiz cocktail stations before you buy.",
+                body=body, crumbs=[("/", "Home"), (None, "Showroom")], faqs=faqs)
 
 
 def p_living():
