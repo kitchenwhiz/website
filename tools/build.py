@@ -17,18 +17,29 @@ e = lambda s: html.escape(s, quote=True)
 
 css_hash = hashlib.md5(open(os.path.join(PUB, "assets/site.css"), "rb").read()).hexdigest()[:8]
 
-NAV = [("/commercial-kitchens", "Kitchens"), ("/equipment", "Equipment"), ("/living-kitchens", "Projects"),
-       ("/showroom", "Showroom"), ("/about-us", "About"), ("/contact", "Contact")]
 
 
 def header(path):
-    def cur(href):
-        sec = C.SECTION_OF.get(path, path)
-        return ' aria-current="page"' if href == sec else ""
-    nav = "".join(f'<a href="{h}"{cur(h)}>{t}</a>' for h, t in NAV)
-    menu = ['<a href="/">Home</a>'] + [f'<a href="{h}">{t}</a>' for h, t in NAV]
-    menu += ['<span class="sub">Kitchens</span>'] + [f'<a href="/{s["slug"]}">{e(s["short"])}</a>' for s in C.SECTORS]
-    menu += ['<span class="sub">Our brands</span>'] + [f'<a href="/{b["slug"]}">{e(b["name"])}</a>' for b in C.BRANDS]
+    sec = C.SECTION_OF.get(path, path)
+    cur = lambda h: ' aria-current="page"' if h in (path, sec) else ""
+    kitchens = [("/commercial-kitchens", "Kitchen design & setup")] + [(f'/{s["slug"]}', s["short"]) for s in C.SECTORS]
+    equipment = [("/equipment", "All equipment"), ("/kw-originals", "KW Originals (custom built)"), ("/grease-trap", "Grease traps"),
+                 ("/showroom", "Showroom & demo centre")]
+    brands = [(f'/{b["slug"]}', b["name"]) for b in C.BRANDS]
+    def drop(label, href, items, active):
+        links = "".join(f'<a href="{h}"{cur(h) if h == path else ""}>{e(t)}</a>' for h, t in items)
+        ac = ' aria-current="page"' if active else ""
+        return f'<div class="dd"><a href="{href}" class="dd-top"{ac}>{label}<span aria-hidden="true">▾</span></a><div class="dd-panel">{links}</div></div>'
+    is_brand = path in [h for h, _ in brands]
+    nav = (drop("Kitchens", "/commercial-kitchens", kitchens, sec == "/commercial-kitchens")
+           + drop("Equipment", "/equipment", equipment, sec == "/equipment" and not is_brand)
+           + drop("Brands", "/equipment#brands", brands, is_brand)
+           + "".join(f'<a href="{h}"{cur(h)}>{t}</a>' for h, t in
+                     [("/living-kitchens", "Projects"), ("/showroom", "Showroom"), ("/about-us", "About"), ("/contact", "Contact")]))
+    menu = ['<a href="/">Home</a>']
+    for title, items in [("Kitchens", kitchens), ("Equipment", equipment), ("Our brands", brands),
+                         ("Company", [("/living-kitchens", "Projects"), ("/about-us", "About us"), ("/contact", "Contact")])]:
+        menu += [f'<span class="sub">{title}</span>'] + [f'<a href="{h}">{e(t)}</a>' for h, t in items]
     return f'''<header class="nav">
   <div class="wrap">
     <a href="/" aria-label="KitchenWhiz home"><img class="logo-light" src="/images/logo.png" alt="KitchenWhiz, since 1977, living kitchens" width="182" height="90"><img class="logo-dark" src="/images/logo-light.png" alt="KitchenWhiz, since 1977, living kitchens" width="400" height="197"></a>

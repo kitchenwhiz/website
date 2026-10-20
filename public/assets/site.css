@@ -280,3 +280,13 @@ section h2 + .stores{margin-top:28px}
 .contact-grid .wa{display:none;line-height:0;border-radius:50%}
 .contact-grid .wa svg{display:block}
 @media (max-width:860px){.contact-grid .wa{display:inline-block}.contact-grid .wa-text{display:none}}
+.nav nav{align-items:center}
+.dd{position:relative}
+.dd-top{display:inline-flex;align-items:center;gap:4px;padding-block:22px}
+.dd-top span{font-size:10px;opacity:.7}
+.dd-panel{position:absolute;left:-14px;top:100%;min-width:250px;background:var(--surface);border:1px solid var(--line);border-radius:14px;padding:8px;box-shadow:0 14px 34px rgba(0,0,0,.14);display:flex;flex-direction:column;visibility:hidden;opacity:0;transform:translateY(-4px);transition:opacity .15s,transform .15s,visibility .15s;z-index:20}
+.dd:hover .dd-panel,.dd:focus-within .dd-panel{visibility:visible;opacity:1;transform:none}
+.nav nav .dd-panel a{padding:10px 12px;border-radius:8px;color:var(--ink);font-weight:500;white-space:nowrap}
+.nav nav .dd-panel a:hover,.nav nav .dd-panel a[aria-current="page"]{background:var(--bg)}
+@media (max-width:1100px){.nav nav{gap:16px;font-size:14.5px}}
+@media (prefers-reduced-motion: reduce){.dd-panel{transition:none}}
