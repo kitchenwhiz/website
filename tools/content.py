@@ -5,6 +5,8 @@ e = lambda s: html.escape(s, quote=True)
 SITE = "https://kitchenwhiz.in"
 HERE = os.path.dirname(os.path.abspath(__file__))
 WA = "https://wa.me/919902014700"
+# Grease trap page and links are hidden for now. Set to True to bring them back.
+SHOW_GREASE_TRAP = False
 MAPS = "https://www.google.com/maps/place/?q=place_id:ChIJFfickwVtrjsRtKl4_SAreX4"
 
 BUSINESS = {
@@ -255,7 +257,7 @@ BRANDS = [
                    "Vegetable crate trolleys", "SS bakery / GN / cooling trolleys", "Vegetable storage bins", "Atta bins", "Charcoal bins",
                    "Nacho bins", "Dust bins", "Deck oven tables", "Bakery tables with granite top and socket", "SS / aluminium bakery trays",
                    "SS pallets", "Attachment holding racks"],
-         photos=[("grease-trap-open.jpg", "USP stainless steel grease trap with the lid off, showing basket and baffles", 1200, 780, "USP grease trap")],
+         photos=[("grease-trap-open.jpg", "USP stainless steel grease trap with the lid off, showing basket and baffles", 1200, 780, "USP grease trap")] if SHOW_GREASE_TRAP else [],
          clients="", email="info@kitchenwhiz.in", related="cloud-qsr-central-kitchen"),
     dict(slug="usp-ecoline", name="USP Ecoline", cls="b-ec", logo=("usp-ecoline.png", 300, 157), tag="Affordable. Durable. Essential.",
          title="USP Ecoline Flat-Pack SS Work Tables, Racks & Burners | Bangalore",
@@ -335,7 +337,7 @@ def brand_page(b):
 '''
     if b["clients"]:
         body += f'<section><div class="wrap"><p class="eyebrow">Clients</p><h2>Where you will find {e(b["name"])}</h2><p class="clients-line"><b>Clients include:</b> {b["clients"]}</p></div></section>'
-    if b["slug"] == "usp-essentials":
+    if b["slug"] == "usp-essentials" and SHOW_GREASE_TRAP:
         body += '<section><div class="wrap"><p class="eyebrow">Featured</p><h2>Stainless steel grease traps</h2><p class="lede">Our USP grease trap keeps fats, oils and grease out of your drains. <a href="/grease-trap">Sizes, parts and specifications →</a></p></div></section>'
     usp = b["slug"] in ("usp-essentials", "usp-ecoline")
     if usp:
@@ -392,7 +394,7 @@ def pages():
                     body=home, ld=[BUSINESS, WEBSITE], faqs=home_faqs, no_cta=True))
     out += [sector_page(s) for s in SECTORS]
     out += [brand_page(b) for b in BRANDS]
-    out += [read_page(n) for n in ("about", "contact", "showroom", "living", "kitchens", "equipment", "originals", "greasetrap")]
+    out += [read_page(n) for n in ("about", "contact", "showroom", "living", "kitchens", "equipment", "originals") + (("greasetrap",) if SHOW_GREASE_TRAP else ())]
     out.append(dict(path="/404", file="404.html", title="Page not found | KitchenWhiz",
                     desc="This page has moved. Find commercial kitchen equipment, kitchen design and our showroom at KitchenWhiz, Bangalore.",
                     robots="noindex", canonical=False, sitemap=False,
@@ -568,6 +570,9 @@ def p_kitchens():
                      "provider": {"@id": SITE + "/#business"}, "areaServed": [{"@type": "City", "name": "Bengaluru"}], "url": SITE + "/commercial-kitchens"}])
 
 
+GT_FEATURE = '''<div class="feature"><div class="badge">GT</div><div><p class="eyebrow">Featured</p><h3>Stainless steel grease traps</h3><p>Keep fats, oils and grease out of your drains. <a href="/grease-trap">Specifications →</a></p></div></div>'''
+
+
 def p_equipment():
     make = ["Stainless steel work tables", "Commercial burner ranges", "Chinese cooking ranges", "Tandoors", "Hot plates and griddles",
             "Kitchen sinks and dishwash tables", "Storage racks and cabinets", "Exhaust hoods and ducting", "Fire suppression systems",
@@ -581,10 +586,10 @@ def p_equipment():
                 photo("p-line.jpg", "Stainless steel cooking line in a commercial kitchen", 975, 1300, cls="photo tall"),
                 [("/contact", "Ask for a quote", "btn-rose"), ("/showroom", "Visit the showroom", "btn-line")],
                 extra=pills("Explore", [("/kw-originals", "KitchenWhiz (custom built)")] + BRAND_MENU[1:] +
-                                       [("/grease-trap", "Grease traps"), ("/showroom", "Showroom & demo centre")]))
+                                       ([("/grease-trap", "Grease traps")] if SHOW_GREASE_TRAP else []) + [("/showroom", "Showroom & demo centre")]))
     body += f'''<section class="band"><div class="wrap two">
 <div><p class="eyebrow">What we make and supply</p><h2>For every station</h2><p class="lede">Custom pieces are built to your sizes in SS202 or SS304. <a href="/kw-originals">See KW Originals →</a></p>
-<div class="feature"><div class="badge">GT</div><div><p class="eyebrow">Featured</p><h3>Stainless steel grease traps</h3><p>Keep fats, oils and grease out of your drains. <a href="/grease-trap">Specifications →</a></p></div></div></div>
+{GT_FEATURE if SHOW_GREASE_TRAP else ""}</div>
 <div>{ul(make)}</div></div></section>
 <section id="brands"><div class="wrap"><p class="eyebrow">Brands by Unique Steel Products</p><h2>Four brands, one factory</h2><div class="brands">{brands}</div></div></section>
 <section id="brands-we-supply" style="padding-top:0"><div class="wrap partners">

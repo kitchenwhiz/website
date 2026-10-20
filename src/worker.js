@@ -34,7 +34,6 @@ const LEGACY = {
   "/cafes": "/cafe",
   "/pizzerias": "/pizzeria",
   "/micro-brewery": "/micro-brewery-and-bar",
-  "/grease-traps": "/grease-trap",
   "/general-2": "/",
 };
 
@@ -60,6 +59,10 @@ export default {
     let key = url.pathname.toLowerCase();
     try { key = decodeURIComponent(key); } catch (_) { /* keep raw path */ }
     if (key.length > 1 && key.endsWith("/")) key = key.slice(0, -1);
+    // Grease trap page is hidden for now: send visitors to USP Essentials (temporary redirect).
+    if (key === "/grease-trap" || key === "/grease-traps") {
+      return Response.redirect(new URL("/usp-essentials", url.origin).toString(), 302);
+    }
     if (Object.prototype.hasOwnProperty.call(LEGACY, key)) {
       const target = new URL(LEGACY[key], url.origin);
       target.search = url.search;

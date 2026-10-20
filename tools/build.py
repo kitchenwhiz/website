@@ -23,7 +23,7 @@ def header(path):
     sec = C.SECTION_OF.get(path, path)
     cur = lambda h: ' aria-current="page"' if h in (path, sec) else ""
     kitchens = [("/commercial-kitchens", "Kitchen design & setup")] + [(f'/{s["slug"]}', s["short"]) for s in C.SECTORS]
-    equipment = [("/equipment", "All equipment"), ("/kw-originals", "KW Originals (custom built)"), ("/grease-trap", "Grease traps"),
+    equipment = [("/equipment", "All equipment"), ("/kw-originals", "KW Originals (custom built)")] + ([("/grease-trap", "Grease traps")] if C.SHOW_GREASE_TRAP else []) + [
                  ("/showroom", "Showroom & demo centre")]
     brands = C.BRAND_MENU
     def drop(label, href, items, active):
@@ -53,7 +53,7 @@ def header(path):
 def footer():
     col = lambda title, links: f'<div><b>{title}</b>' + "".join(f'<a href="{h}">{e(t)}</a>' for h, t in links) + "</div>"
     kitchens = [(f'/{s["slug"]}', s["short"]) for s in C.SECTORS]
-    equip = [("/equipment", "All equipment"), ("/kw-originals", "KW Originals (custom built)"), ("/grease-trap", "Grease traps"),
+    equip = [("/equipment", "All equipment"), ("/kw-originals", "KW Originals (custom built)")] + ([("/grease-trap", "Grease traps")] if C.SHOW_GREASE_TRAP else []) + [
              ("/commercial-kitchens", "Kitchen design & setup"), ("/showroom", "Showroom & demo centre")]
     brands = C.BRAND_MENU
     company = [("/about-us", "About us"), ("/living-kitchens", "Projects"), ("/contact", "Contact"),
