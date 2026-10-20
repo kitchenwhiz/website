@@ -25,12 +25,12 @@ def header(path):
     kitchens = [("/commercial-kitchens", "Kitchen design & setup")] + [(f'/{s["slug"]}', s["short"]) for s in C.SECTORS]
     equipment = [("/equipment", "All equipment"), ("/kw-originals", "KW Originals (custom built)"), ("/grease-trap", "Grease traps"),
                  ("/showroom", "Showroom & demo centre")]
-    brands = [(f'/{b["slug"]}', b["name"]) for b in C.BRANDS]
+    brands = C.BRAND_MENU
     def drop(label, href, items, active):
         links = "".join(f'<a href="{h}"{cur(h) if h == path else ""}>{e(t)}</a>' for h, t in items)
         ac = ' aria-current="page"' if active else ""
         return f'<div class="dd"><a href="{href}" class="dd-top"{ac}>{label}<span aria-hidden="true">▾</span></a><div class="dd-panel">{links}</div></div>'
-    is_brand = path in [h for h, _ in brands]
+    is_brand = path in C.BRAND_PATHS
     nav = (drop("Kitchens", "/commercial-kitchens", kitchens, sec == "/commercial-kitchens")
            + drop("Equipment", "/equipment", equipment, sec == "/equipment" and not is_brand)
            + drop("Brands", "/equipment#brands", brands, is_brand)
@@ -55,7 +55,7 @@ def footer():
     kitchens = [(f'/{s["slug"]}', s["short"]) for s in C.SECTORS]
     equip = [("/equipment", "All equipment"), ("/kw-originals", "KW Originals (custom built)"), ("/grease-trap", "Grease traps"),
              ("/commercial-kitchens", "Kitchen design & setup"), ("/showroom", "Showroom & demo centre")]
-    brands = [(f'/{b["slug"]}', b["name"]) for b in C.BRANDS]
+    brands = C.BRAND_MENU
     company = [("/about-us", "About us"), ("/living-kitchens", "Projects"), ("/contact", "Contact"),
                ("https://wa.me/919902014700", "WhatsApp 99020 14700")]
     return f'''<footer>

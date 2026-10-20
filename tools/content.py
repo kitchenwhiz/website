@@ -267,6 +267,15 @@ BRANDS = [
          photos=[], clients="", email="uspecoline@gmail.com", related="restaurants"),
 ]
 
+# The four brands of Unique Steel Products, as shown in menus and brand cards
+BRAND_MENU = [("/kw-originals", "KitchenWhiz"), ("/barwhiz", "Barwhiz"), ("/heatko", "HeatKO"),
+              ("/usp-essentials", "USP Essentials + Ecoline")]
+BRAND_CARDS = [("/kw-originals", "KitchenWhiz", "Engineering culinary spaces, from concept to completion"),
+               ("/barwhiz", "Barwhiz", "Where precision meets mixology"),
+               ("/heatko", "HeatKO", "Where innovation meets culinary precision"),
+               ("/usp-essentials", "USP Essentials + Ecoline", "Affordable. Durable. Essential.")]
+BRAND_PATHS = {"/kw-originals", "/barwhiz", "/heatko", "/usp-essentials", "/usp-ecoline"}
+
 SECTION_OF = {f'/{s["slug"]}': "/commercial-kitchens" for s in SECTORS}
 SECTION_OF.update({f'/{b["slug"]}': "/equipment" for b in BRANDS})
 SECTION_OF.update({"/kw-originals": "/equipment", "/grease-trap": "/equipment"})
@@ -323,13 +332,23 @@ def brand_page(b):
         body += f'<section><div class="wrap"><p class="eyebrow">Clients</p><h2>Where you will find {e(b["name"])}</h2><p class="clients-line"><b>Clients include:</b> {b["clients"]}</p></div></section>'
     if b["slug"] == "usp-essentials":
         body += '<section><div class="wrap"><p class="eyebrow">Featured</p><h2>Stainless steel grease traps</h2><p class="lede">Our USP grease trap keeps fats, oils and grease out of your drains. <a href="/grease-trap">Sizes, parts and specifications →</a></p></div></section>'
-    others = [(f'/{o["slug"]}', o["name"], o["tag"]) for o in BRANDS if o is not b]
-    others.append(("/kw-originals", "KW Originals", "Custom-built equipment, made to your exact sizes"))
+    usp = b["slug"] in ("usp-essentials", "usp-ecoline")
+    if usp:
+        sib = next(o for o in BRANDS if o["slug"] in ("usp-essentials", "usp-ecoline") and o is not b)
+        body += (f'<section style="padding-top:0"><div class="wrap"><div class="feature"><div class="badge">USP</div><div>'
+                 f'<p class="eyebrow">Also from USP</p><h3>{e(sib["name"])}</h3><p>{e(sib["lede"])} '
+                 f'<a href="/{sib["slug"]}">See the {e(sib["name"])} range →</a></p></div></div></div></section>')
+    own = "/usp-essentials" if usp else path
+    others = [c for c in BRAND_CARDS if c[0] != own]
     rel = next(s for s in SECTORS if s["slug"] == b["related"])
     others.append((f'/{rel["slug"]}', rel["short"], rel["eq_lede"]))
-    body += cards(others[:6], "Brands by Unique Steel Products", "Four brands, one factory")
+    body += cards(others, "Brands by Unique Steel Products", "Four brands, one factory")
+    trail = [("/", "Home"), ("/equipment", "Equipment")]
+    if b["slug"] == "usp-ecoline":
+        trail.append(("/usp-essentials", "USP Essentials + Ecoline"))
+    trail.append((None, b["name"]))
     return dict(path=path, file=b["slug"] + ".html", title=b["title"], desc=b["desc"], og=b["photos"][0][0] if b["photos"] else "showroom.jpg",
-                body=body, crumbs=[("/", "Home"), ("/equipment", "Equipment"), (None, b["name"])])
+                body=body, crumbs=trail)
 
 
 def read(name):
@@ -548,7 +567,9 @@ def p_equipment():
             "Kitchen sinks and dishwash tables", "Storage racks and cabinets", "Exhaust hoods and ducting", "Fire suppression systems",
             "Grease traps and drain gratings", "Commercial refrigeration", "Combi and convection ovens", "Dishwashers",
             "Bain maries and food display", "Bakery equipment", "Bar and cocktail stations"]
-    brands = "".join(f'''<article class="brand {b["cls"]}"><img src="/images/{b["logo"][0]}" alt="{e(b["name"])}" width="{b["logo"][1]}" height="{b["logo"][2]}" loading="lazy"><div class="tag">{e(b["tag"])}</div><p>{e(b["lede"])}</p><a class="more" href="/{b["slug"]}">{e(b["name"])} range →</a></article>''' for b in BRANDS)
+    home = read("home.html")
+    a = home.find('<div class="brands">') + len('<div class="brands">')
+    brands = home[a:home.find("</div>\n  </div>\n</section>", a)].strip()
     body = hero("Commercial kitchen equipment · Bangalore", "Commercial kitchen <em>equipment</em>",
                 "Stainless steel equipment made in our Bommasandra factory, our own brands for bars, steamers and standard furniture, and 100+ Indian and imported brands, for restaurants, hotels and food businesses across Bengaluru and Karnataka.",
                 photo("p-line.jpg", "Stainless steel cooking line in a commercial kitchen", 975, 1300, cls="photo tall"),
@@ -578,7 +599,7 @@ def p_originals():
              ("Cocktail station", "Keeps every supply for mixed drinks in one organised station, so bartenders serve faster.", "/barwhiz"),
              ("Bakery trolley", "Stacks trays so product moves easily before and after baking.", "/bakery")]
     cs = "".join(f'<a href="{h}"><b>{t}</b><span>{d}</span><span class="go">Where it\'s used →</span></a>' for t, d, h in items)
-    body = hero("KW Originals · Custom built", "Custom-built <em>kitchen equipment</em>",
+    body = hero("KitchenWhiz · KW Originals · Custom built", "KitchenWhiz <em>custom-built</em> kitchen equipment",
                 "Our in-house design team studies the ergonomics, aesthetics, function and pain points of each kitchen to build equipment that performs. We keep improving the designs from client feedback and current trends.",
                 photo("p-prep.jpg", "Custom stainless steel prep station built by KitchenWhiz", 975, 1300, cls="photo tall"),
                 [("/contact", "Discuss a custom build", "btn-rose"), ("/showroom", "See it in the showroom", "btn-line")])
@@ -587,9 +608,9 @@ def p_originals():
 <p class="lede">Every custom line is drawn in 3D and matched to your site before fabrication starts in our factory, in SS202 or SS304.</p>{RENDERS}</div></section>
 '''
     return dict(path="/kw-originals", file="kw-originals.html", og="line-render-1.jpg",
-                title="Custom-Built Stainless Steel Kitchen Equipment | KW Originals | KitchenWhiz",
+                title="KitchenWhiz Custom-Built Stainless Steel Kitchen Equipment | KW Originals",
                 desc="KW Originals: custom-built stainless steel commercial kitchen equipment made in Bangalore: robata grills, six burner ranges, bain maries, prep counters, cocktail stations and bakery trolleys, built to your exact sizes.",
-                body=body, crumbs=[("/", "Home"), ("/equipment", "Equipment"), (None, "KW Originals")])
+                body=body, crumbs=[("/", "Home"), ("/equipment", "Equipment"), (None, "KitchenWhiz – KW Originals")])
 
 
 def p_greasetrap():
