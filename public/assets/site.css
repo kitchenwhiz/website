@@ -276,3 +276,7 @@ section h2 + .stores{margin-top:28px}
 .foot-links a:hover{color:var(--ink);text-decoration:underline}
 @media (max-width:760px){.foot-links{grid-template-columns:1fr 1fr}}
 .notfound{padding-block:clamp(64px,10vw,120px)}
+.contact-grid .phone{display:flex;align-items:center;gap:12px}
+.contact-grid .wa{display:none;line-height:0;border-radius:50%}
+.contact-grid .wa svg{display:block}
+@media (max-width:860px){.contact-grid .wa{display:inline-block}.contact-grid .wa-text{display:none}}
