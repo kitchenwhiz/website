@@ -76,12 +76,17 @@ def ul(items, cls="list-cols"):
     return f'<ul class="{cls}">' + "".join(f"<li>{e(i)}</li>" for i in items) + "</ul>"
 
 
-def hero(eyebrow, h1, lede, fig, ctas=None):
+def pills(label, items):
+    links = "".join(f'<a href="{h}">{e(t)}</a>' for h, t in items)
+    return f'<nav class="pills" aria-label="{e(label)}"><span>{e(label)}</span>{links}</nav>'
+
+
+def hero(eyebrow, h1, lede, fig, ctas=None, extra=""):
     ctas = ctas or [("/contact", "Plan my kitchen", "btn-rose"), (WA, "WhatsApp us", "btn-line")]
     ext = ' target="_blank" rel="noopener"'
     b = "".join(f'<a class="btn {c}" href="{h}"{ext if h.startswith("http") else ""}>{t}</a>' for h, t, c in ctas)
     return f'''<section class="page-hero"><div class="wrap"><div class="hero-grid">
-<div><p class="eyebrow">{eyebrow}</p><h1>{h1}</h1><p class="lede">{lede}</p><div class="cta">{b}</div></div>
+<div><p class="eyebrow">{eyebrow}</p><h1>{h1}</h1><p class="lede">{lede}</p>{extra}<div class="cta">{b}</div></div>
 {fig}
 </div></div></section>'''
 
@@ -546,11 +551,12 @@ def p_kitchens():
     grid = home[a:b].replace('src="images/', 'src="/images/')
     body = hero("Commercial kitchen design & setup · Bangalore", "Commercial kitchens, <em>built</em> to your layout",
                 "We plan, design, build and maintain commercial kitchens and bars across Bengaluru. You work with one partner from the first site visit to after-sales service, instead of coordinating a designer, a fabricator and a dozen suppliers.",
-                photo("p-geist.jpg", "Geist Brewing Co. kitchen line built by KitchenWhiz", 1300, 975, "Geist Brewing Co."))
-    body += f'''<section class="band"><div class="wrap"><p class="eyebrow">How we work</p><h2>One team from drawing to first service</h2>{STEPS}{RENDERS}</div></section>
-<section class="sectors"><div class="wrap"><p class="eyebrow">Commercial kitchen solutions</p><h2>Every format, every cuisine</h2>
-<p class="lede">The layout starts from how your team cooks and serves, whether it's a café counter or a central kitchen.</p>
+                photo("p-geist.jpg", "Geist Brewing Co. kitchen line built by KitchenWhiz", 1300, 975, "Geist Brewing Co."),
+                extra=pills("Choose your kitchen", [(f'/{s["slug"]}', s["short"]) for s in SECTORS]))
+    body += f'''<section class="sectors" id="formats"><div class="wrap"><p class="eyebrow">Commercial kitchen solutions</p><h2>Every format, every cuisine</h2>
+<p class="lede">Pick your kind of kitchen to see the equipment we supply, a KitchenWhiz original built for it, and the clients we've set up.</p>
 {grid}</div></section>
+<section class="band"><div class="wrap"><p class="eyebrow">How we work</p><h2>One team from drawing to first service</h2>{STEPS}{RENDERS}</div></section>
 '''
     body += faq_html(COMMON_FAQ, "Planning a kitchen: common questions")
     return dict(path="/commercial-kitchens", file="commercial-kitchens.html", og="p-geist.jpg",
@@ -573,7 +579,9 @@ def p_equipment():
     body = hero("Commercial kitchen equipment · Bangalore", "Commercial kitchen <em>equipment</em>",
                 "Stainless steel equipment made in our Bommasandra factory, our own brands for bars, steamers and standard furniture, and 100+ Indian and imported brands, for restaurants, hotels and food businesses across Bengaluru and Karnataka.",
                 photo("p-line.jpg", "Stainless steel cooking line in a commercial kitchen", 975, 1300, cls="photo tall"),
-                [("/contact", "Ask for a quote", "btn-rose"), ("/showroom", "Visit the showroom", "btn-line")])
+                [("/contact", "Ask for a quote", "btn-rose"), ("/showroom", "Visit the showroom", "btn-line")],
+                extra=pills("Explore", [("/kw-originals", "KitchenWhiz (custom built)")] + BRAND_MENU[1:] +
+                                       [("/grease-trap", "Grease traps"), ("/showroom", "Showroom & demo centre")]))
     body += f'''<section class="band"><div class="wrap two">
 <div><p class="eyebrow">What we make and supply</p><h2>For every station</h2><p class="lede">Custom pieces are built to your sizes in SS202 or SS304. <a href="/kw-originals">See KW Originals →</a></p>
 <div class="feature"><div class="badge">GT</div><div><p class="eyebrow">Featured</p><h3>Stainless steel grease traps</h3><p>Keep fats, oils and grease out of your drains. <a href="/grease-trap">Specifications →</a></p></div></div></div>
