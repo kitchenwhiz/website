@@ -2,6 +2,7 @@
 // 1. Other hostnames 301 to https://kitchenwhiz.in (same path).
 // 2. Old Squarespace addresses that changed 301 to their new pages, so search history carries over.
 // 3. Adds security and caching headers to the static files in public/.
+// 4. /shop/uspessentials/ serves the USP Essentials shop (Cloudflare Pages project "uspessentials").
 
 const MAIN_HOST = "kitchenwhiz.in";
 const REDIRECT_HOSTS = new Set([
@@ -37,6 +38,29 @@ const LEGACY = {
   "/general-2": "/",
 };
 
+// The USP Essentials shop lives in its own Pages project; it is shown at kitchenwhiz.in/shop/uspessentials/
+const SHOP_PREFIX = "/shop/uspessentials";
+const SHOP_ORIGIN = "https://uspessentials.pages.dev";
+
+async function shop(request, url) {
+  // The shop uses relative links (img/…, api/…), so its address must end with "/"
+  if (url.pathname === SHOP_PREFIX) {
+    url.pathname = SHOP_PREFIX + "/";
+    return Response.redirect(url.toString(), 301);
+  }
+  const upstream = new URL(url.pathname.slice(SHOP_PREFIX.length) + url.search, SHOP_ORIGIN);
+  const res = await fetch(new Request(upstream.toString(), request), { redirect: "manual" });
+  const out = new Response(res.body, res);
+  // Keep any redirect from the shop inside /shop/uspessentials/
+  const loc = res.headers.get("Location");
+  if (loc) {
+    const l = new URL(loc, SHOP_ORIGIN);
+    if (l.origin === SHOP_ORIGIN) out.headers.set("Location", SHOP_PREFIX + l.pathname + l.search + l.hash);
+  }
+  for (const [k, v] of Object.entries(SECURITY_HEADERS)) out.headers.set(k, v);
+  return out;
+}
+
 const SECURITY_HEADERS = {
   "X-Content-Type-Options": "nosniff",
   "Referrer-Policy": "strict-origin-when-cross-origin",
@@ -55,6 +79,8 @@ export default {
       url.port = "";
       return Response.redirect(url.toString(), 301);
     }
+
+    if (url.pathname === SHOP_PREFIX || url.pathname.startsWith(SHOP_PREFIX + "/")) return shop(request, url);
 
     let key = url.pathname.toLowerCase();
     try { key = decodeURIComponent(key); } catch (_) { /* keep raw path */ }
