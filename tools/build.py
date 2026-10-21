@@ -37,7 +37,7 @@ def header(path):
            + drop("Brands", "/equipment#brands", brands, is_brand)
            + "".join(f'<a href="{h}"{cur(h)}>{t}</a>' for h, t in
                      [("/living-kitchens", "Projects"), ("/showroom", "Showroom"), ("/about-us", "About"), ("/contact", "Contact")]))
-    menu = ['<a href="/">Home</a>']
+    menu = ['<a href="/">Home</a>', f'<a href="{C.SHOP_USP}" class="shop-link">Shop USP Essentials online →</a>']
     for title, items in [("Kitchens", kitchens), ("Equipment", equipment), ("Our brands", brands),
                          ("Company", [("/living-kitchens", "Projects"), ("/about-us", "About us"), ("/contact", "Contact")])]:
         menu += [f'<span class="sub">{title}</span>'] + [f'<a href="{h}">{e(t)}</a>' for h, t in items]
@@ -46,6 +46,7 @@ def header(path):
     <a href="/" aria-label="KitchenWhiz home"><img class="logo-light" src="/images/logo.png" alt="KitchenWhiz, since 1977, living kitchens" width="182" height="90"><img class="logo-dark" src="/images/logo-light.png" alt="KitchenWhiz, since 1977, living kitchens" width="400" height="197"></a>
     <nav aria-label="Main">{nav}</nav>
     <details class="menu"><summary aria-label="Open menu">Menu</summary><div class="panel">{"".join(menu)}</div></details>
+    <a class="btn btn-line btn-shop" href="{C.SHOP_USP}"><span class="long">Shop USP</span><span class="short">Shop</span></a>
     <a class="btn btn-rose" href="/contact">Talk to us</a>
   </div>
 </header>'''
@@ -141,6 +142,8 @@ def page(p):
 </main>
 {"" if p.get("no_cta") else CTA}
 {footer()}
+<a href="#top" class="to-top" aria-label="Back to top"><svg viewBox="0 0 24 24" width="20" height="20" aria-hidden="true"><path d="M12 19V5M5 12l7-7 7 7" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg><span>Top</span></a>
+<script>(function(){{var b=document.querySelector('.to-top');if(!b)return;var f=function(){{b.classList.toggle('show',window.scrollY>700)}};window.addEventListener('scroll',f,{{passive:true}});f();b.addEventListener('click',function(e){{e.preventDefault();window.scrollTo({{top:0,behavior:window.matchMedia('(prefers-reduced-motion: reduce)').matches?'auto':'smooth'}})}})}})();</script>
 </body>
 </html>
 '''

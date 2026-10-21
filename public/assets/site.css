@@ -205,7 +205,7 @@ footer img{height:40px;width:auto}
 .menu .panel a:hover{background:var(--bg)}
 .menu .panel .sub{font-family:var(--f-mono);font-size:11px;letter-spacing:.12em;text-transform:uppercase;color:var(--muted);padding:10px 12px 4px}
 @media (max-width:860px){.menu{display:block;margin-left:auto}.nav .btn{margin-left:0}}
-@media (max-width:420px){.nav .btn{display:none}}
+
 
 .crumbs{font-size:13.5px;color:var(--muted);padding-top:22px}
 .crumbs ol{list-style:none;margin:0;padding:0;display:flex;flex-wrap:wrap;gap:6px}
@@ -311,3 +311,16 @@ section h2 + .stores{margin-top:28px}
 .asm-replay{position:absolute;right:8px;top:8px;font:500 12px/1 var(--f-body);border:1px solid #D5D9DC;background:#fff;color:#1F2326;border-radius:999px;padding:6px 10px;cursor:pointer;opacity:0;transition:opacity .3s}
 .asm-done .asm-replay{opacity:.9}
 @media (max-width:640px){.asm-tag{display:none}}
+/* header shop button + back to top */
+.nav .wrap{gap:18px}
+.btn-shop{margin-left:0;padding:12px 16px;color:var(--ink)}
+.btn-shop .short{display:none}
+.nav nav{margin-right:6px}
+@media (max-width:1180px){.nav nav{gap:14px;font-size:14px}.btn-shop,.nav .btn-rose{padding:11px 14px;font-size:14px}}
+@media (max-width:860px){.btn-shop .long{display:none}.btn-shop .short{display:inline}.nav .wrap{gap:10px}}
+@media (max-width:480px){.nav .btn-rose{display:none}}
+.menu .panel .shop-link{font-weight:600;color:var(--rose-ink)}
+.to-top{position:fixed;right:max(16px,env(safe-area-inset-right));bottom:max(16px,env(safe-area-inset-bottom));z-index:30;display:inline-flex;align-items:center;gap:6px;padding:11px 14px;border-radius:999px;background:var(--ink);color:var(--bg);text-decoration:none;font:600 13px/1 var(--f-body);box-shadow:0 8px 24px rgba(0,0,0,.2);opacity:0;transform:translateY(12px);pointer-events:none;transition:opacity .25s,transform .25s}
+.to-top.show{opacity:.92;transform:none;pointer-events:auto}
+.to-top:hover{opacity:1}
+@media (max-width:560px){.to-top span{display:none}.to-top{padding:12px}}

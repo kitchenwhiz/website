@@ -58,8 +58,25 @@ async function shop(request, url) {
     if (l.origin === SHOP_ORIGIN) out.headers.set("Location", SHOP_PREFIX + l.pathname + l.search + l.hash);
   }
   for (const [k, v] of Object.entries(SECURITY_HEADERS)) out.headers.set(k, v);
+  // On the shop's pages, add a KitchenWhiz breadcrumb bar at the top and a back-to-top button
+  if ((out.headers.get("Content-Type") || "").includes("text/html")) {
+    return new HTMLRewriter()
+      .on("body", { element(el) { el.prepend(SHOP_CRUMBS, { html: true }); el.append(SHOP_TOTOP, { html: true }); } })
+      .transform(out);
+  }
   return out;
 }
+
+const SHOP_CRUMBS = `<nav class="kwx-crumbs" aria-label="Breadcrumb" style="background:#F8F9F9;color:#5B6166;border-bottom:1px solid #D5D9DC;font:14px/1.4 'Instrument Sans','Segoe UI',Helvetica,Arial,sans-serif">
+<ol style="list-style:none;margin:0 auto;padding:9px 20px;max-width:1180px;display:flex;flex-wrap:wrap;gap:6px;align-items:center">
+<li><a href="/" style="color:#1F2326;text-decoration:none;font-weight:600">← KitchenWhiz</a></li>
+<li aria-hidden="true" style="color:#C3CAD0">/</li><li><a href="/equipment" style="color:inherit;text-decoration:none">Equipment</a></li>
+<li aria-hidden="true" style="color:#C3CAD0">/</li><li><a href="/usp-essentials" style="color:inherit;text-decoration:none">USP Essentials + Ecoline</a></li>
+<li aria-hidden="true" style="color:#C3CAD0">/</li><li aria-current="page" style="color:#1F2326">Shop</li>
+</ol></nav>`;
+
+const SHOP_TOTOP = `<a href="#" class="kwx-top" aria-label="Back to top" style="position:fixed;right:16px;bottom:96px;z-index:34;display:inline-flex;align-items:center;gap:6px;padding:11px 14px;border-radius:999px;background:#1F2326;color:#EEF0F1;text-decoration:none;font:600 13px/1 'Instrument Sans','Segoe UI',Arial,sans-serif;box-shadow:0 8px 24px rgba(0,0,0,.2);opacity:0;pointer-events:none;transition:opacity .25s"><svg viewBox="0 0 24 24" width="18" height="18" aria-hidden="true"><path d="M12 19V5M5 12l7-7 7 7" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg>Top</a>
+<script>(function(){var b=document.querySelector('.kwx-top');if(!b)return;var f=function(){var s=window.scrollY>700;b.style.opacity=s?'.92':'0';b.style.pointerEvents=s?'auto':'none'};addEventListener('scroll',f,{passive:true});f();b.addEventListener('click',function(e){e.preventDefault();scrollTo({top:0,behavior:'smooth'})})})();</script>`;
 
 const SECURITY_HEADERS = {
   "X-Content-Type-Options": "nosniff",
