@@ -22,6 +22,10 @@
     const bounds = [boundary(-400, 0, 0, W, H)]
       .concat(cuts.map(c => boundary(c[0], c[1], k, W, H)))
       .concat([boundary(W + 400, 0, 0, W, H)]);
+    // the "camera": everything that moves together when the view zooms and swings
+    const cam = document.createElement("div");
+    cam.className = "asm-cam";
+    stage.appendChild(cam);
     const pieces = [];
     for (let i = 0; i < bounds.length - 1; i++) {
       const a = bounds[i], b = bounds[i + 1];
@@ -30,7 +34,7 @@
       el.className = "asm-piece";
       el.style.backgroundImage = `url("${img.currentSrc || img.src}")`;
       el.style.clipPath = `polygon(${poly})`;
-      stage.appendChild(el);
+      cam.appendChild(el);
       // label anchor: middle of the module's front face
       const left = i === 0 ? Math.max(0, cuts[0] ? cuts[0][0] - 140 : 0) : cuts[i - 1][0];
       const right = i < cuts.length ? cuts[i][0] : Math.min(W, left + 180);
@@ -40,7 +44,7 @@
     }
     const shine = document.createElement("div");
     shine.className = "asm-shine";
-    stage.appendChild(shine);
+    cam.appendChild(shine);
     const tags = [];
     pieces.forEach((p, i) => {
       if (!p.label) return;
@@ -49,60 +53,77 @@
       t.textContent = p.label;
       t.style.left = (p.cx / W * 100) + "%";
       t.style.top = (Math.min(p.yt + (i % 2 ? 125 : 70), H * 0.86) / H * 100) + "%";
-      stage.appendChild(t);
+      cam.appendChild(t);
       p.tag = t;
       tags.push(t);
     });
     fig.classList.add("asm-ready");
-    return { pieces, shine, tags, W };
+    return { pieces, shine, tags, W, cam };
   }
 
   function play(fig, parts) {
-    const { pieces, shine, tags, W } = parts;
+    const { pieces, shine, cam, W } = parts;
     fig.classList.remove("asm-done");
     fig.classList.add("asm-playing");
-    const n = pieces.length;
-    const order = pieces.map((_, i) => i);
-    const stagger = 650, dur = 1700, shrinkAfter = 450;
-    const anims = order.map((i, step) => {
-      const p = pieces[i];
-      const fromLeft = p.cx < W / 2;
-      const dx = (fromLeft ? -1 : 1) * (60 + Math.random() * 120);
-      const dy = -(140 + Math.random() * 160);
+    const n = pieces.length, half = Math.ceil(n / 2);
+    const stagger = 600, dur = 1500, shrinkAfter = 400;
+    const swingMs = 2400, zoomOutMs = 1800;
+    // camera positions: close on the left half turned towards you, close on the right half, full line
+    const LEFT = "translateX(34%) scale(1.6) rotateY(16deg)";
+    const RIGHT = "translateX(-34%) scale(1.6) rotateY(-16deg)";
+    const FULL = "translateX(0) scale(1) rotateY(0deg)";
+    const start1 = 900;                                         // camera settles on the left half first
+    const end1 = start1 + (half - 1) * stagger + dur + shrinkAfter + 500;
+    const start2 = end1 + swingMs + 200;
+    const end2 = start2 + (n - half - 1) * stagger + dur + shrinkAfter + 500;
+    const total = end2 + zoomOutMs;
+    const at = ms => ms / total;
+    cam.animate([
+      { transform: FULL, offset: 0 },
+      { transform: LEFT, offset: at(start1 - 100), easing: "cubic-bezier(.45,0,.2,1)" },
+      { transform: LEFT, offset: at(end1), easing: "cubic-bezier(.55,0,.25,1)" },
+      { transform: RIGHT, offset: at(end1 + swingMs) },
+      { transform: RIGHT, offset: at(end2), easing: "cubic-bezier(.45,0,.2,1)" },
+      { transform: FULL, offset: 1 }
+    ], { duration: total, fill: "both" });
+
+    pieces.forEach((p, i) => {
+      const second = i >= half;
+      const delay = second ? start2 + (i - half) * stagger : start1 + i * stagger;
+      const fromLeft = !second;
+      const dx = (fromLeft ? -1 : 1) * (60 + Math.random() * 100);
+      const dy = -(150 + Math.random() * 140);
       const rot = (fromLeft ? -1 : 1) * (4 + Math.random() * 6);
-      const delay = 300 + step * stagger;
       if (p.tag) {
         // the name tag rides in on its module, large, then shrinks once the module is placed
         p.tag.animate([
-          { transform: `translate(calc(-50% + ${dx}px), ${dy}px) scale(1.3)`, opacity: 0 },
+          { transform: `translate(calc(-50% + ${dx}px), ${dy}px) scale(1.2)`, opacity: 0 },
           { opacity: 1, offset: 0.3 },
-          { transform: "translate(-50%, 6px) scale(1.3)", offset: 0.82 },
-          { transform: "translate(-50%, 0) scale(1.3)", opacity: 1 }
+          { transform: "translate(-50%, 6px) scale(1.2)", offset: 0.82 },
+          { transform: "translate(-50%, 0) scale(1.2)", opacity: 1 }
         ], { duration: dur, delay, easing: "cubic-bezier(.2,.8,.2,1)", fill: "both" });
         p.tag.animate([
-          { transform: "translate(-50%, 0) scale(1.3)", opacity: 1 },
-          { transform: "translate(-50%, 0) scale(.8)", opacity: .92 }
+          { transform: "translate(-50%, 0) scale(1.2)", opacity: 1 },
+          { transform: "translate(-50%, 0) scale(.72)", opacity: .92 }
         ], { duration: 600, delay: delay + dur + shrinkAfter, easing: "cubic-bezier(.3,.7,.2,1)", fill: "forwards" });
       }
-      return p.el.animate([
+      p.el.animate([
         { transform: `translate(${dx}px, ${dy}px) rotate(${rot}deg) scale(.92)`, opacity: 0 },
         { opacity: 1, offset: 0.35 },
         { transform: "translate(0, 6px) rotate(0) scale(1.01)", offset: 0.82 },
         { transform: "translate(0,0) rotate(0) scale(1)", opacity: 1 }
       ], { duration: dur, delay, easing: "cubic-bezier(.2,.8,.2,1)", fill: "both" });
     });
-    const landed = 300 + (n - 1) * stagger + dur + shrinkAfter + 600;
     shine.animate([{ transform: "translateX(-120%)", opacity: 0 }, { opacity: 1, offset: .2 }, { opacity: 1, offset: .8 }, { transform: "translateX(120%)", opacity: 0 }],
-      { duration: 1600, delay: landed, easing: "ease-in-out", fill: "both" });
-    setTimeout(() => { fig.classList.add("asm-done"); fig.classList.remove("asm-playing"); }, landed + 600);
-    return anims;
+      { duration: 1600, delay: total + 200, easing: "ease-in-out", fill: "both" });
+    setTimeout(() => { fig.classList.add("asm-done"); fig.classList.remove("asm-playing"); }, total);
   }
 
   function setup(fig) {
     const img = fig.querySelector(".asm-stage img");
     const go = () => {
       const parts = build(fig);
-      if (reduce) { fig.classList.add("asm-done"); parts.tags.forEach(t => { t.style.opacity = .92; t.style.transform = "translate(-50%,0) scale(.8)"; }); return; }
+      if (reduce) { fig.classList.add("asm-done"); parts.tags.forEach(t => { t.style.opacity = .92; t.style.transform = "translate(-50%,0) scale(.72)"; }); return; }
       const btn = document.createElement("button");
       btn.type = "button";
       btn.className = "asm-replay";

@@ -301,8 +301,10 @@ section h2 + .stores{margin-top:28px}
 .asm-stage img{position:relative}
 .asm-piece{position:absolute;inset:0;background-size:100% 100%;background-repeat:no-repeat;mix-blend-mode:multiply;will-change:transform,opacity;pointer-events:none}
 .asm-ready .asm-stage img{visibility:hidden}
-.asm-stage::before{content:"";position:absolute;inset:0;background-image:linear-gradient(rgba(42,79,134,.09) 1px,transparent 1px),linear-gradient(90deg,rgba(42,79,134,.09) 1px,transparent 1px);background-size:22px 22px;opacity:0;transition:opacity .8s ease}
-.asm-playing .asm-stage::before{opacity:1}
+.asm-cam{position:absolute;inset:0;transform-origin:50% 55%;will-change:transform}
+.asm-stage{perspective:1400px}
+.asm-cam::before{content:"";position:absolute;inset:-40%;background-color:#fff;background-image:linear-gradient(rgba(42,79,134,.09) 1px,transparent 1px),linear-gradient(90deg,rgba(42,79,134,.09) 1px,transparent 1px);background-size:22px 22px;opacity:0;transition:opacity .8s ease}
+.asm-playing .asm-cam::before{opacity:1}
 .asm-shine{position:absolute;inset:0;background:linear-gradient(105deg,transparent 40%,rgba(255,255,255,.45) 47%,rgba(210,228,255,.3) 50%,transparent 56%);opacity:0;pointer-events:none}
 .asm-tag{position:absolute;transform:translateX(-50%);transform-origin:50% 0;z-index:2;font:600 12px/1.2 var(--f-mono);letter-spacing:.04em;text-transform:uppercase;background:rgba(31,35,38,.88);color:#fff;padding:5px 8px;border-radius:6px;white-space:nowrap;opacity:0;pointer-events:none;box-shadow:0 4px 12px rgba(0,0,0,.18)}
 .asm-tag::after{content:"";position:absolute;left:50%;top:-4px;width:8px;height:8px;background:inherit;transform:translateX(-50%) rotate(45deg);border-radius:1px}
