@@ -7,6 +7,7 @@ HERE = os.path.dirname(os.path.abspath(__file__))
 WA = "https://wa.me/919902014700"
 # Grease trap page and links are hidden for now. Set to True to bring them back.
 SHOW_GREASE_TRAP = False
+SHOP_USP = "/shop/uspessentials/"   # USP Essentials online shop
 MAPS = "https://www.google.com/maps/place/?q=place_id:ChIJFfickwVtrjsRtKl4_SAreX4"
 
 BUSINESS = {
@@ -324,8 +325,10 @@ def brand_page(b):
     block = (f'<article class="brand {b["cls"]}" style="min-height:320px;justify-content:center">'
              f'<img src="/images/{b["logo"][0]}" alt="{e(b["name"])}" width="{lw}" height="{lh}" style="height:80px">'
              f'<div class="tag">{e(b["tag"])}</div><p>A brand of Unique Steel Products, made in Bengaluru.</p></article>')
-    body = hero(f'{e(b["name"])} · Unique Steel Products · Bengaluru', b["h1"], b["lede"], block,
-                [("/contact", "Ask for a quote", "btn-rose"), (WA, "WhatsApp us", "btn-line")])
+    ctas = [("/contact", "Ask for a quote", "btn-rose"), (WA, "WhatsApp us", "btn-line")]
+    if b["slug"] in ("usp-essentials", "usp-ecoline"):
+        ctas = [(SHOP_USP, "Shop USP Essentials online", "btn-rose"), ("/contact", "Ask for a quote", "btn-line")]
+    body = hero(f'{e(b["name"])} · Unique Steel Products · Bengaluru', b["h1"], b["lede"], block, ctas)
     about = "".join(f"<p>{p}</p>" for p in b["about"])
     pics = ""
     if b["photos"]:

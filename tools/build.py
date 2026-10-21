@@ -58,7 +58,7 @@ def footer():
              ("/commercial-kitchens", "Kitchen design & setup"), ("/showroom", "Showroom & demo centre")]
     brands = C.BRAND_MENU
     company = [("/about-us", "About us"), ("/living-kitchens", "Projects"), ("/contact", "Contact"),
-               ("https://wa.me/919902014700", "WhatsApp 99020 14700")]
+               ("https://wa.me/919902014700", "WhatsApp 99020 14700"), (C.SHOP_USP, "Shop USP Essentials online")]
     return f'''<footer>
   <div class="wrap">
     <div class="foot-links">{col("Kitchens", kitchens)}{col("Equipment", equip)}{col("Our brands", brands)}{col("Company", company)}</div>
