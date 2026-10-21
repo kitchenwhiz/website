@@ -372,7 +372,7 @@ figure.wtfig{flex-direction:column;gap:10px}
 .buybar .tot{border-top:0;padding-top:8px}
 .buybar .ctas{flex-wrap:nowrap}
 .buybar .btn.pri{flex:1}
-@media (max-width:820px){.buybar{position:fixed;left:0;right:0;bottom:0;margin:0;padding:2px 16px calc(10px + env(safe-area-inset-bottom,0px));gap:8px;z-index:14} .buybar .tot{padding-top:6px} body{padding-bottom:calc(132px + env(safe-area-inset-bottom,0px))} body.quote-open .buybar,body.quote-full .buybar{display:none}}
+@media (max-width:820px){.buybar{position:fixed;left:0;right:0;bottom:0;top:auto;max-height:45vh;margin:0;padding:2px 16px calc(10px + env(safe-area-inset-bottom,0px));gap:8px;z-index:14} .buybar .tot{padding-top:6px} body{padding-bottom:calc(132px + env(safe-area-inset-bottom,0px))} body.quote-open .buybar,body.quote-full .buybar{display:none}}
 @media print{.buybar{position:static;box-shadow:none}}
 @media (max-width:820px){.cartfab{bottom:calc(env(safe-area-inset-bottom,0px) + 132px)} .totop{bottom:calc(env(safe-area-inset-bottom,0px) + 196px)} .totop.lifted{bottom:calc(env(safe-area-inset-bottom,0px) + 196px)}}
 .qfoot{border-top:1px solid var(--line);padding:12px 16px;display:flex;flex-direction:column;gap:8px}
