@@ -1921,7 +1921,7 @@ function drawStack(band, names, crop) {
 function drawLayerDims(band, crop, L, D) {
   const m = BANDS[band], svg = $('rDims'), res = m.res;
   svg.setAttribute('viewBox', '0 ' + crop[0] + ' ' + res + ' ' + (crop[1] - crop[0]));
-  const px = $('rStage').getBoundingClientRect().width || 600, k = res / px, fs = 13 * k, off = 22 * k;
+  const px = $('rStage').getBoundingClientRect().width || 600, k = res / px, sc = Math.min(1, Math.max(0.62, px / 600)), fs = 13 * sc * k, off = 22 * sc * k;
   const seg = (a, b, sx, sy) => { const len = Math.hypot(b[0] - a[0], b[1] - a[1]) || 1; let nx = -(b[1] - a[1]) / len, ny = (b[0] - a[0]) / len; if (nx * sx + ny * sy < 0) { nx = -nx; ny = -ny; } return [a[0] + nx * off, a[1] + ny * off, b[0] + nx * off, b[1] + ny * off]; };
   const segs = { L: seg(m.FL, m.FR, 0, 1), D: seg(m.FL, m.BL, -1, 0.3), H: [m.TFR[0] + off, m.FR[1], m.TFR[0] + off, m.TFR[1]] };
   const val = { L: L, D: D, H: 850 }, cx = res / 2, cy = (crop[0] + crop[1]) / 2;
