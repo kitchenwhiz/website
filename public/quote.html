@@ -325,6 +325,7 @@ body:not(.expert) .custom{display:none}
 @keyframes flashq{0%{box-shadow:-8px 0 24px rgba(0,0,0,.08),inset 0 0 0 3px var(--accent)}100%{box-shadow:-8px 0 24px rgba(0,0,0,.08),inset 0 0 0 0 transparent}}
 .cartfab{position:fixed;right:clamp(16px,3vw,28px);bottom:calc(env(safe-area-inset-bottom,0px) + 20px);z-index:16;display:flex;align-items:center;gap:8px;height:52px;padding:0 18px 0 16px;border:0;border-radius:26px;background:var(--ink);color:var(--bg);font:inherit;font-weight:600;font-size:15px;cursor:pointer;box-shadow:0 8px 24px rgba(0,0,0,.2);transform:translateY(160%);transition:transform .2s ease}
 .cartfab.show{transform:none}
+.cartfab:not(.show){visibility:hidden;transition:transform .2s ease,visibility 0s linear .2s}
 .cartfab .ccount{min-width:22px;height:22px;padding:0 6px;border-radius:11px;background:var(--accent);color:var(--on-accent);display:flex;align-items:center;justify-content:center;font-size:12px}
 .cartfab .ctotal{font-family:"IBM Plex Mono",ui-monospace,monospace;font-weight:500}
 .totop{position:fixed;right:clamp(16px,3vw,28px);bottom:calc(env(safe-area-inset-bottom,0px) + 20px);z-index:16;width:44px;height:44px;border-radius:22px;border:1px solid var(--line);background:var(--card-on);color:var(--ink);display:flex;align-items:center;justify-content:center;cursor:pointer;box-shadow:0 4px 12px rgba(0,0,0,.12);opacity:0;visibility:hidden;transition:opacity .2s ease,bottom .2s ease,visibility 0s linear .2s}
@@ -355,13 +356,13 @@ body.quote-open .cartfab,body.quote-full .totop,body.quote-open .totop{display:n
 .clistbox li:hover{background:color-mix(in srgb,var(--card) 70%,var(--accent) 30%)}
 .custmsg{margin:-8px 0 0;font-size:13px;color:var(--muted);min-height:1em}
 figure.wtfig{flex-direction:column;gap:10px}
-.rbox{width:100%;max-width:720px;margin-right:auto;border-radius:10px;overflow:hidden;background:#0E0F11}
-.rstage{position:relative;overflow:hidden;background:#0B0C0E}
+.rbox{width:100%;max-width:720px;margin-right:auto;border-radius:10px;overflow:hidden;background:#FFFFFF;border:1px solid var(--line)}
+.rstage{position:relative;overflow:hidden;background:#FFFFFF}
 .rlayers{position:absolute;left:0;width:100%}
 .rlayers img{position:absolute;inset:0;width:100%;height:100%;display:block}
 .rdetail{position:absolute;inset:0;width:100%;height:100%;object-fit:cover}
 .rdims{position:absolute;inset:0;width:100%;height:100%;overflow:visible;pointer-events:none}
-.rdims text{font-family:"IBM Plex Mono",ui-monospace,monospace;font-weight:500;fill:#FFFFFF;paint-order:stroke;stroke:rgba(14,15,17,.85);stroke-width:7px;stroke-linejoin:round}
+.rdims text{font-family:"IBM Plex Mono",ui-monospace,monospace;font-weight:500;fill:#1F4FA0;paint-order:stroke;stroke:#FFFFFF;stroke-width:7px;stroke-linejoin:round}
 .rthumbs{display:flex;gap:8px;flex-wrap:wrap;max-width:720px}
 .rthumbs button{display:flex;flex-direction:column;align-items:center;gap:4px;width:84px;padding:4px;border:1px solid var(--line);border-radius:6px;background:var(--card);color:var(--ink);cursor:pointer;font:inherit;font-size:11px;font-weight:600}
 .rthumbs button[aria-pressed="true"]{border:2px solid var(--accent);padding:3px}
@@ -1874,7 +1875,7 @@ window.addEventListener('resize', () => { if (!$('viewProd').hidden && pState.p)
    Rendered in Blender for this page: one camera per length band, a base (studio, top, legs) and every
    add-on as a see-through layer with its own floor shadow, cut where the legs / top are in front of it.
    The page stacks the layers for the build the customer picks. Files: /images/worktable/layers/<band>/<layer>.webp */
-const BANDS = {"1050": {"res": 960, "FL": [351.8, 864.7], "FR": [677.0, 759.3], "BL": [285.0, 752.6], "TFR": [719.0, 486.3], "topY": 307.3, "floorY": 879.5, "rackY": 81}};
+const BANDS = {"1050": {"res": 1200, "FL": [351.1, 940.0], "FR": [732.6, 1078.3], "BL": [481.4, 838.7], "TFR": [753.5, 722.0], "TFL": [306.7, 597.6], "topY": 378.8, "floorY": 1094.9, "rackY": 108}};
 const BAND_KEYS = Object.keys(BANDS).map(Number).sort((x, y) => x - y);
 const LIMG = (b, n) => '/images/worktable/layers/' + b + '/' + n + '.webp';
 const DIMG = (n) => '/images/worktable/' + n + '.webp';
@@ -1902,7 +1903,7 @@ function layerImg(name) {
   if (!layerImgs[name]) { const i = document.createElement('img'); i.alt = ''; i.decoding = 'async'; i.dataset.layer = name; $('rLayers').appendChild(i); layerImgs[name] = i; }
   return layerImgs[name];
 }
-const ORDER = ['base', 'S3back', 'rails', 'U1', 'U2', 'U3', 'feet', 'W4', 'G', 'SK', 'C', 'S3sides', 'D', 'B', 'O1', 'O2'];
+const ORDER = ['base', 'S3back', 'feet', 'W4', 'rails', 'U1', 'U2', 'U3', 'G', 'SK', 'C', 'S3sides', 'D', 'B', 'O1', 'O2'];
 function drawStack(band, names, crop) {
   const m = BANDS[band], res = m.res;
   const stage = $('rStage');
@@ -1923,14 +1924,17 @@ function drawLayerDims(band, crop, L, D) {
   svg.setAttribute('viewBox', '0 ' + crop[0] + ' ' + res + ' ' + (crop[1] - crop[0]));
   const px = $('rStage').getBoundingClientRect().width || 600, k = res / px, sc = Math.min(1, Math.max(0.62, px / 600)), fs = 13 * sc * k, off = 22 * sc * k;
   const seg = (a, b, sx, sy) => { const len = Math.hypot(b[0] - a[0], b[1] - a[1]) || 1; let nx = -(b[1] - a[1]) / len, ny = (b[0] - a[0]) / len; if (nx * sx + ny * sy < 0) { nx = -nx; ny = -ny; } return [a[0] + nx * off, a[1] + ny * off, b[0] + nx * off, b[1] + ny * off]; };
-  const segs = { L: seg(m.FL, m.FR, 0, 1), D: seg(m.FL, m.BL, -1, 0.3), H: [m.TFR[0] + off, m.FR[1], m.TFR[0] + off, m.TFR[1]] };
+  const BR = [m.FR[0] + m.BL[0] - m.FL[0], m.FR[1] + m.BL[1] - m.FL[1]], TFL = m.TFL || m.TFR;
+  const segs = m.TFL
+    ? { L: seg(m.FL, m.FR, 0, 1), D: seg(m.FR, BR, 1, 0.3), H: [TFL[0] - off, m.FL[1], TFL[0] - off, TFL[1]] }
+    : { L: seg(m.FL, m.FR, 0, 1), D: seg(m.FL, m.BL, -1, 0.3), H: [m.TFR[0] + off, m.FR[1], m.TFR[0] + off, m.TFR[1]] };
   const val = { L: L, D: D, H: 850 }, cx = res / 2, cy = (crop[0] + crop[1]) / 2;
-  let out = '<defs><marker id="rHead" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" fill="#FFFFFF"></path></marker></defs>';
+  let out = '<defs><marker id="rHead" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" fill="#1F4FA0"></path></marker></defs>';
   ['L', 'D', 'H'].forEach((key) => {
     const [x1, y1, x2, y2] = segs[key], mx = (x1 + x2) / 2, my = (y1 + y2) / 2, len = Math.hypot(x2 - x1, y2 - y1) || 1;
     let nx = -(y2 - y1) / len, ny = (x2 - x1) / len; if (nx * (mx - cx) + ny * (my - cy) < 0) { nx = -nx; ny = -ny; }
     const tx = mx + nx * fs, ty = my + ny * fs; let ang = Math.atan2(y2 - y1, x2 - x1) * 180 / Math.PI; if (ang >= 90) ang -= 180; if (ang < -90) ang += 180;
-    out += '<line x1="' + x1.toFixed(1) + '" y1="' + y1.toFixed(1) + '" x2="' + x2.toFixed(1) + '" y2="' + y2.toFixed(1) + '" stroke="#FFFFFF" stroke-width="2" vector-effect="non-scaling-stroke" marker-start="url(#rHead)" marker-end="url(#rHead)"></line>' +
+    out += '<line x1="' + x1.toFixed(1) + '" y1="' + y1.toFixed(1) + '" x2="' + x2.toFixed(1) + '" y2="' + y2.toFixed(1) + '" stroke="#1F4FA0" stroke-width="2" vector-effect="non-scaling-stroke" marker-start="url(#rHead)" marker-end="url(#rHead)"></line>' +
       '<text x="' + tx.toFixed(1) + '" y="' + ty.toFixed(1) + '" font-size="' + fs.toFixed(0) + '" text-anchor="middle" dominant-baseline="middle" transform="rotate(' + ang.toFixed(1) + ' ' + tx.toFixed(1) + ' ' + ty.toFixed(1) + ')">' + key + ' ' + val[key] + ' mm</text>';
   });
   svg.innerHTML = out;
