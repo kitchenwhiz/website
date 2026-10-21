@@ -296,3 +296,16 @@ section h2 + .stores{margin-top:28px}
 .pills a{font-size:15px;font-weight:500;text-decoration:none;padding:9px 15px;border-radius:999px;border:1px solid var(--line);background:var(--surface);color:var(--ink);transition:border-color .15s,background .15s}
 .pills a:hover{border-color:var(--rose);background:color-mix(in srgb,var(--rose) 10%,var(--surface))}
 .kcard{position:relative}.kcard h3 a::after{content:"";position:absolute;inset:0}.kcard:has(h3 a):hover{border-color:var(--rose)}
+/* assembly animation for 3D line renders (assets/assemble.js) */
+.asm-stage{position:relative;overflow:hidden;border-radius:10px;background:#fff;isolation:isolate}
+.asm-stage img{position:relative}
+.asm-piece{position:absolute;inset:0;background-size:100% 100%;background-repeat:no-repeat;mix-blend-mode:multiply;will-change:transform,opacity;pointer-events:none}
+.asm-ready .asm-stage img{visibility:hidden}
+.asm-stage::before{content:"";position:absolute;inset:0;background-image:linear-gradient(rgba(42,79,134,.09) 1px,transparent 1px),linear-gradient(90deg,rgba(42,79,134,.09) 1px,transparent 1px);background-size:22px 22px;opacity:0;transition:opacity .8s ease}
+.asm-playing .asm-stage::before{opacity:1}
+.asm-shine{position:absolute;inset:0;background:linear-gradient(105deg,transparent 40%,rgba(255,255,255,.45) 47%,rgba(210,228,255,.3) 50%,transparent 56%);opacity:0;pointer-events:none}
+.asm-tag{position:absolute;transform:translateX(-50%);font:600 10.5px/1.2 var(--f-mono);letter-spacing:.04em;text-transform:uppercase;background:rgba(31,35,38,.88);color:#fff;padding:5px 8px;border-radius:6px;white-space:nowrap;opacity:0;pointer-events:none;box-shadow:0 4px 12px rgba(0,0,0,.18)}
+.asm-tag::after{content:"";position:absolute;left:50%;top:-4px;width:8px;height:8px;background:inherit;transform:translateX(-50%) rotate(45deg);border-radius:1px}
+.asm-replay{position:absolute;right:8px;top:8px;font:500 12px/1 var(--f-body);border:1px solid #D5D9DC;background:#fff;color:#1F2326;border-radius:999px;padding:6px 10px;cursor:pointer;opacity:0;transition:opacity .3s}
+.asm-done .asm-replay{opacity:.9}
+@media (max-width:640px){.asm-tag{display:none}}

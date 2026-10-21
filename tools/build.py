@@ -15,6 +15,7 @@ import content as C  # noqa: E402
 SITE = "https://kitchenwhiz.in"
 e = lambda s: html.escape(s, quote=True)
 
+js_hash = hashlib.md5(open(os.path.join(PUB, "assets/assemble.js"), "rb").read()).hexdigest()[:8]
 css_hash = hashlib.md5(open(os.path.join(PUB, "assets/site.css"), "rb").read()).hexdigest()[:8]
 
 
@@ -103,6 +104,7 @@ def page(p):
     ld = "\n".join(f'<script type="application/ld+json">\n{json.dumps(x, ensure_ascii=False, indent=1)}\n</script>' for x in lds)
     img = SITE + "/images/" + p.get("og", "showroom.jpg")
     body = p["body"]
+    asm_script = f'<script src="/assets/assemble.js?v={js_hash}" defer></script>' if 'class="assemble"' in body else ""
     robots = p.get("robots", "index, follow, max-image-preview:large")
     canonical = f'<link rel="canonical" href="{url}">\n' if p.get("canonical", True) else ""
     return f'''<!doctype html>
@@ -129,6 +131,7 @@ def page(p):
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo:wdth,wght@62..125,400..900&family=Instrument+Sans:wght@400;500;600&family=JetBrains+Mono:wght@400;600&display=swap">
 <link rel="stylesheet" href="/assets/site.css?v={css_hash}">
+{asm_script}
 </head>
 <body>
 {header(path)}

@@ -102,8 +102,8 @@ STEPS = '''<div class="steps">
     </div>'''
 
 RENDERS = '''<div class="renders">
-      <figure><img src="/images/line-render-1.jpg" alt="3D render of a cooking line with burner ranges, sink and work tables" width="1150" height="594" loading="lazy"><figcaption>Every line is drawn in 3D before it is built.</figcaption></figure>
-      <figure><img src="/images/line-render-2.jpg" alt="3D render of a Chinese and continental cooking line" width="1064" height="513" loading="lazy"><figcaption>Sizes are matched to your site, down to the millimetre.</figcaption></figure>
+      <figure class="assemble" data-k="0.3" data-cuts='[[222, 245], [305, 245], [390, 245], [512, 245], [625, 245], [742, 245], [910, 245]]' data-labels='["Burner range", "Steamer", "Work table", "Single burner", "Waste chute", "Sink", "Work table", "Dimsum steamer"]'><div class="asm-stage"><img src="/images/line-render-1.jpg" alt="3D render of a cooking line with burner ranges, sink and work tables" width="1150" height="594" loading="lazy"></div><figcaption>Every line is drawn in 3D before it is built.</figcaption></figure>
+      <figure class="assemble" data-k="1.1" data-cuts='[[152, 170], [232, 185], [318, 200], [410, 218], [572, 258], [760, 300], [912, 285]]' data-labels='[]'><div class="asm-stage"><img src="/images/line-render-2.jpg" alt="3D render of a Chinese and continental cooking line" width="1064" height="513" loading="lazy"></div><figcaption>Sizes are matched to your site, down to the millimetre.</figcaption></figure>
     </div>'''
 
 COMMON_FAQ = [
