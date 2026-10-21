@@ -142,6 +142,7 @@ def page(p):
 </main>
 {"" if p.get("no_cta") else CTA}
 {footer()}
+<a href="/quote" class="quote-fab" aria-label="Design your kitchen and get a quote"><svg viewBox="0 0 24 24" width="20" height="20" aria-hidden="true"><path d="M4 20h16M6 16l9.5-9.5a2.1 2.1 0 0 1 3 3L9 19H6z" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg><span class="q-long"><b>Design your kitchen</b><small>Get an instant quote</small></span><span class="q-short">Get a quote</span></a>
 <a href="#top" class="to-top" aria-label="Back to top"><svg viewBox="0 0 24 24" width="20" height="20" aria-hidden="true"><path d="M12 19V5M5 12l7-7 7 7" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg><span>Top</span></a>
 <script>(function(){{var b=document.querySelector('.to-top');if(!b)return;var f=function(){{b.classList.toggle('show',window.scrollY>700)}};window.addEventListener('scroll',f,{{passive:true}});f();b.addEventListener('click',function(e){{e.preventDefault();window.scrollTo({{top:0,behavior:window.matchMedia('(prefers-reduced-motion: reduce)').matches?'auto':'smooth'}})}})}})();</script>
 </body>
