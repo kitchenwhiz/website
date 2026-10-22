@@ -344,7 +344,10 @@ body.quote-open .cartfab,body.quote-full .totop,body.quote-open .totop{display:n
 .lab small{text-transform:none;letter-spacing:0;font-size:11px}
 .custmsg{margin:-8px 0 0;font-size:13px;color:var(--body)} .custmsg.err{color:#B42318;font-weight:600}
 .pill.off{opacity:.45}
-.combo{position:relative;width:200px;max-width:100%}
+.combo{position:relative;width:150px;max-width:100%}
+.sizes{gap:16px 20px;flex-wrap:nowrap} .sizes .field{min-width:0}
+.combo input::placeholder{color:#8A8D91;opacity:1}
+@media (max-width:520px){.sizes{gap:12px} .sizes .field{flex:1 1 0;min-width:0} .sizes .combo{width:100%} .sizes .combo input{font-size:13px;padding:0 28px 0 8px} .sizes .combo .cbtn{width:26px}}
 .combo input{height:44px;width:100%;padding:0 40px 0 12px;border:1px solid var(--ink);border-radius:4px;background:var(--field);color:var(--ink);font-size:15px;box-sizing:border-box}
 .combo input:focus-visible{outline:3px solid var(--accent);outline-offset:2px}
 .combo input.bad{border-color:#B42318}
@@ -373,6 +376,7 @@ figure.wtfig{flex-direction:column;gap:10px}
 .buybar .tot{border-top:0;padding-top:8px}
 .buybar .ctas{flex-wrap:nowrap}
 .buybar .btn.pri{flex:1}
+.btn.pri.dim{opacity:.55}
 @media (max-width:820px){.buybar{position:fixed;left:0;right:0;bottom:0;top:auto;max-height:45vh;margin:0;padding:2px 16px calc(10px + env(safe-area-inset-bottom,0px));gap:8px;z-index:14} .buybar .tot{padding-top:6px} body{padding-bottom:calc(132px + env(safe-area-inset-bottom,0px))} body.quote-open .buybar,body.quote-full .buybar{display:none}}
 @media print{.buybar{position:static;box-shadow:none}}
 @media (max-width:820px){.cartfab{bottom:calc(env(safe-area-inset-bottom,0px) + 132px)} .totop{bottom:calc(env(safe-area-inset-bottom,0px) + 196px)} .totop.lifted{bottom:calc(env(safe-area-inset-bottom,0px) + 196px)}}
@@ -630,10 +634,12 @@ figure{position:sticky;top:calc(env(safe-area-inset-top,0px) + var(--tray-h));z-
 <h1 class="disp">Work table</h1>
 <div class="pricerow"><div class="price disp" id="price"></div><div class="crumb">EQ code <span id="code"></span></div></div>
 <div class="sizes">
-<div class="field"><label class="lab" for="depthIn" id="depthLab">Depth <small>(mm)</small></label>
-<div class="combo" data-for="d"><input id="depthIn" class="mono" type="text" inputmode="numeric" autocomplete="off" role="combobox" aria-autocomplete="list" aria-expanded="false" aria-controls="depthList" aria-describedby="custMsg"><button type="button" class="cbtn" tabindex="-1" aria-label="Show standard depths"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 9l6 6 6-6"></path></svg></button><ul class="clistbox" id="depthList" role="listbox" aria-label="Standard depths" hidden></ul></div></div>
 <div class="field"><label class="lab" for="lenIn" id="lenLab">Length <small>(mm)</small></label>
-<div class="combo" data-for="l"><input id="lenIn" class="mono" type="text" inputmode="numeric" autocomplete="off" role="combobox" aria-autocomplete="list" aria-expanded="false" aria-controls="lenList" aria-describedby="custMsg"><button type="button" class="cbtn" tabindex="-1" aria-label="Show standard lengths"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 9l6 6 6-6"></path></svg></button><ul class="clistbox" id="lenList" role="listbox" aria-label="Standard lengths" hidden></ul></div></div>
+<div class="combo" data-for="l"><input id="lenIn" class="mono" type="text" inputmode="numeric" autocomplete="off" placeholder="400–2400" role="combobox" aria-autocomplete="list" aria-expanded="false" aria-controls="lenList" aria-describedby="custMsg"><button type="button" class="cbtn" tabindex="-1" aria-label="Show standard lengths"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 9l6 6 6-6"></path></svg></button><ul class="clistbox" id="lenList" role="listbox" aria-label="Standard lengths" hidden></ul></div></div>
+<div class="field"><label class="lab" for="depthIn" id="depthLab">Depth <small>(mm)</small></label>
+<div class="combo" data-for="d"><input id="depthIn" class="mono" type="text" inputmode="numeric" autocomplete="off" placeholder="600–900" role="combobox" aria-autocomplete="list" aria-expanded="false" aria-controls="depthList" aria-describedby="custMsg"><button type="button" class="cbtn" tabindex="-1" aria-label="Show standard depths"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 9l6 6 6-6"></path></svg></button><ul class="clistbox" id="depthList" role="listbox" aria-label="Standard depths" hidden></ul></div></div>
+<div class="field"><label class="lab" for="heightIn" id="heightLab">Height <small>(mm)</small></label>
+<div class="combo" data-for="h"><input id="heightIn" class="mono" type="text" inputmode="numeric" autocomplete="off" placeholder="600–1000" role="combobox" aria-autocomplete="list" aria-expanded="false" aria-controls="heightList" aria-describedby="custMsg"><button type="button" class="cbtn" tabindex="-1" aria-label="Show standard heights"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 9l6 6 6-6"></path></svg></button><ul class="clistbox" id="heightList" role="listbox" aria-label="Standard heights" hidden></ul></div></div>
 </div>
 <p class="custmsg" id="custMsg"></p>
 <div class="field"><span class="lab" id="ssLab">Material</span><div class="pills" id="ssPills" role="radiogroup" aria-labelledby="ssLab"><button class="pill mono" data-ss="202" role="radio">SS 202</button><button class="pill mono" data-ss="304" role="radio">SS 304</button></div><span class="crumb" id="ssNote"></span></div>
@@ -794,16 +800,20 @@ function wtPrice(L, D, ss) {
 }
 const addonLabel = (a) => a.name + ' (' + a.code + ')';
 const inr = (n) => '\u20B9' + n.toLocaleString('en-IN');
-const state = { depth: '600', length: '750', picked: {}, qty: 1, ss: '202' };
+const state = { depth: '', length: '', height: '', picked: {}, qty: 1, ss: '202' };
 const $ = (id) => document.getElementById(id);
 const CHECK = '<svg width="14" height="14" viewBox="0 0 16 16" fill="none" stroke="#FFFFFF" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M3 8.5l3 3 7-7"></path></svg>';
 
 /* Depth / Length combo boxes: the list offers the standard sizes; any other number (steps of 10 mm) is a custom size */
 const STD_D = [...new Set(TABLES.map((t) => t.d))].sort((x, y) => x - y);
 const STD_L = [...new Set(TABLES.map((t) => t.l))].sort((x, y) => x - y);
+const STD_H = [850];
+/* allowed sizes: length and depth from the smallest standard size up to the Quote Builder maximum; height does not change the price */
+const SIZE_RULE = { l: { key: 'length', name: 'Length', min: STD_L[0], max: CUST_MAX.l, opts: STD_L, inp: 'lenIn', list: 'lenList' },
+  d: { key: 'depth', name: 'Depth', min: STD_D[0], max: CUST_MAX.d, opts: STD_D, inp: 'depthIn', list: 'depthList' },
+  h: { key: 'height', name: 'Height', min: 600, max: 1000, opts: STD_H, inp: 'heightIn', list: 'heightList' } };
 function combo(kind) {
-  const inp = kind === 'd' ? $('depthIn') : $('lenIn'), list = kind === 'd' ? $('depthList') : $('lenList');
-  const opts = kind === 'd' ? STD_D : STD_L, key = kind === 'd' ? 'depth' : 'length';
+  const R = SIZE_RULE[kind], inp = $(R.inp), list = $(R.list), opts = R.opts, key = R.key;
   let act = -1;
   const draw = () => {
     list.innerHTML = opts.map((v, i) => '<li role="option" id="' + list.id + '-' + i + '" data-v="' + v + '" aria-selected="' + (i === act) + '"' + (String(v) === String(state[key]) ? ' class="cur"' : '') + '>' + v + ' mm' + (String(v) === String(state[key]) ? '<span aria-hidden="true">✓</span>' : '') + '</li>').join('');
@@ -849,40 +859,45 @@ ADDONS.forEach((a) => {
   $('grid').appendChild(b);
 });
 
-function custErr(v, max, name) {
+function custErr(v, kind) {
+  const R = SIZE_RULE[kind];
   if (v === '') return '';
   const n = +v;
-  if (!(n > 0)) return name + ': enter a number in mm';
-  if (n > max) return name + ' can be at most ' + max + ' mm';
-  if (n % 10) return name + ' must be in steps of 10 mm';
+  if (!(n > 0)) return R.name + ': enter a number in mm';
+  if (n < R.min || n > R.max) return R.name + ' must be ' + R.min + '\u2013' + R.max + ' mm';
+  if (n % 10) return R.name + ' must be in steps of 10 mm';
   return '';
 }
+/* size as typed: err = a wrong number, empty = something not filled in yet; L / D / H fall back to 750 x 600 x 850 only for internal sums */
 function curSize() {
-  const eD = custErr(String(state.depth).trim(), CUST_MAX.d, 'Depth') || (String(state.depth).trim() === '' ? 'Enter a depth in mm' : '');
-  const eL = custErr(String(state.length).trim(), CUST_MAX.l, 'Length') || (String(state.length).trim() === '' ? 'Enter a length in mm' : '');
-  return { D: eD ? lastGood.D : +state.depth, L: eL ? lastGood.L : +state.length, err: eD || eL };
+  const v = (k) => String(state[SIZE_RULE[k].key]).trim();
+  const err = custErr(v('l'), 'l') || custErr(v('d'), 'd') || custErr(v('h'), 'h');
+  const empty = !err && (v('l') === '' || v('d') === '' || v('h') === '');
+  const ok = !err && !empty;
+  return { L: ok ? +v('l') : 750, D: ok ? +v('d') : 600, H: ok ? +v('h') : 850, err: err || (empty ? 'Enter the length, depth and height' : ''), bad: !!err, empty: empty, ok: ok };
 }
-const lastGood = { D: 600, L: 750 };
 function render() {
   const sz = curSize();
-  if (!sz.err) { lastGood.D = sz.D; lastGood.L = sz.L; }
   const pr = wtPrice(sz.L, sz.D, state.ss);
-  $('code').textContent = pr.code;
-  $('price').textContent = inr(pr.base);
-  $('size').textContent = sz.L + ' × ' + sz.D + ' × 850 mm' + (pr.custom ? ' (custom)' : '');
-  $('sizeShort').textContent = sz.L + ' × ' + sz.D + ' mm' + (state.ss === '304' ? ', SS 304' : '');
+  $('code').textContent = sz.ok ? pr.code : '\u2014';
+  $('price').textContent = sz.ok ? inr(pr.base) : '\u20B9 \u2014';
+  $('size').textContent = sz.ok ? sz.L + ' × ' + sz.D + ' × ' + sz.H + ' mm' + (pr.custom ? ' (custom)' : '') : '\u2014';
+  $('sizeShort').textContent = sz.ok ? sz.L + ' × ' + sz.D + ' mm' + (state.ss === '304' ? ', SS 304' : '') : 'your size (enter it above)';
   $('dimL').textContent = sz.L; $('dimD').textContent = sz.D;
   document.querySelectorAll('#ssPills .pill').forEach((b) => { const on = b.dataset.ss === state.ss; b.setAttribute('aria-pressed', String(on)); b.setAttribute('aria-checked', String(on)); });
   $('ssNote').textContent = state.ss === '304' ? 'SS 304 = SS 202 price × 1.25 (granite top and wheels unchanged)' : '';
-  const eD = custErr(String(state.depth).trim(), CUST_MAX.d, 'Depth'), eL = custErr(String(state.length).trim(), CUST_MAX.l, 'Length');
-  $('depthIn').classList.toggle('bad', !!eD || String(state.depth).trim() === '');
-  $('lenIn').classList.toggle('bad', !!eL || String(state.length).trim() === '');
-  if (document.activeElement !== $('depthIn')) $('depthIn').value = String(state.depth);
-  if (document.activeElement !== $('lenIn')) $('lenIn').value = String(state.length);
+  ['l', 'd', 'h'].forEach((k) => {
+    const R = SIZE_RULE[k], el = $(R.inp), val = String(state[R.key]).trim();
+    el.classList.toggle('bad', !!custErr(val, k));
+    if (document.activeElement !== el) el.value = val;
+  });
   const msg = $('custMsg');
-  if (sz.err) { msg.className = 'custmsg err'; msg.textContent = sz.err + '. Showing ' + sz.L + ' × ' + sz.D + ' mm.'; }
-  else if (pr.custom) { msg.className = 'custmsg'; msg.textContent = 'Custom size ' + sz.L + ' × ' + sz.D + ' mm · model number WT-CUS · priced between ' + pr.lower + ' and ' + pr.higher + ' by area.'; }
-  else { msg.className = 'custmsg'; msg.textContent = 'Standard size. Pick from the list or type any size (depth up to 900, length up to 2400, steps of 10 mm).'; }
+  const rules = 'Length ' + SIZE_RULE.l.min + '\u2013' + SIZE_RULE.l.max + ', depth ' + SIZE_RULE.d.min + '\u2013' + SIZE_RULE.d.max + ', height ' + SIZE_RULE.h.min + '\u2013' + SIZE_RULE.h.max + ' mm, steps of 10. Pick a standard size from the list or type your own.';
+  const hNote = sz.ok && sz.H !== 850 ? ' Height ' + sz.H + ' mm (standard 850; price unchanged).' : '';
+  if (sz.bad) { msg.className = 'custmsg err'; msg.textContent = sz.err + '.'; }
+  else if (sz.empty) { msg.className = 'custmsg'; msg.textContent = rules; }
+  else if (pr.custom) { msg.className = 'custmsg'; msg.textContent = 'Custom size ' + sz.L + ' × ' + sz.D + ' mm · model number WT-CUS · priced between ' + pr.lower + ' and ' + pr.higher + ' by area.' + hNote; }
+  else { msg.className = 'custmsg'; msg.textContent = 'Standard size.' + hNote; }
   let total = pr.base, count = 0;
   ADDONS.forEach((a) => {
     const b = document.querySelector('.card[data-k="' + a.k + '"]');
@@ -890,7 +905,7 @@ function render() {
     if (on) { total += pr.ad[a.code]; count++; }
     b.setAttribute('aria-pressed', String(on));
     b.setAttribute('aria-disabled', 'false');
-    b.querySelector('.pr').textContent = '+ ' + inr(pr.ad[a.code]);
+    b.querySelector('.pr').textContent = sz.ok ? '+ ' + inr(pr.ad[a.code]) : '';
   });
   total = round2(total);
   const show = {};
@@ -906,13 +921,14 @@ function render() {
   const extras = ADDONS.filter((a) => show[a.k]).map((a) => a.name);
   $('artSvg').setAttribute('aria-label', 'Stainless steel work table with a braced base' + (extras.length ? ', shown with: ' + extras.join(', ') : ''));
   $('count').textContent = count === 0 ? 'No add-ons selected' : count === 1 ? '1 add-on selected' : count + ' add-ons selected';
-  $('total').textContent = inr(total * state.qty);
-  $('each').textContent = state.qty > 1 ? state.qty + ' \u00D7 ' + inr(total) + ' each' : '';
+  $('total').textContent = sz.ok ? inr(total * state.qty) : '\u2014';
+  $('each').textContent = sz.ok && state.qty > 1 ? state.qty + ' \u00D7 ' + inr(total) + ' each' : '';
+  $('addQuote').classList.toggle('dim', !sz.ok); $('addQuote').setAttribute('aria-disabled', String(!sz.ok));
   $('qtyIn').value = state.qty;
   $('qtyDec').disabled = state.qty <= 1;
   if (window.__rReady) updateRender();
 }
-combo('d'); combo('l');
+combo('l'); combo('d'); combo('h');
 render();
 
 /* ---------- brand buttons + scroll tray ---------- */
@@ -1149,17 +1165,17 @@ function renderQuote() {
 $('qtyDec').addEventListener('click', () => { if (state.qty > 1) { state.qty--; render(); } });
 $('qtyInc').addEventListener('click', () => { state.qty++; render(); });
 $('qtyIn').addEventListener('change', (e) => { const v = parseInt(e.target.value, 10); state.qty = v > 0 ? Math.min(v, 999) : 1; render(); });
-function wtItem(L, D, ss, codes, qty) {
+function wtItem(L, D, ss, codes, qty, H) {
   const pr = wtPrice(L, D, ss);
   const addons = ADDONS.filter((a) => codes.includes(a.code)).map((a) => ({ code: a.code, label: addonLabel(a), price: pr.ad[a.code] }));
-  return Object.assign({ pid: 'worktable', cat: 'Work Table', brand: 'kitchenwhiz', name: pr.custom ? 'Work table (custom size)' : 'Work table', size: L + 'x' + D + 'x850', code: pr.code, price: pr.base, addons: addons, qty: qty },
+  return Object.assign({ pid: 'worktable', cat: 'Work Table', brand: 'kitchenwhiz', name: pr.custom ? 'Work table (custom size)' : 'Work table', size: L + 'x' + D + 'x' + (H || 850), code: pr.code, price: pr.base, addons: addons, qty: qty },
     ss === '304' ? { ss: '304' } : {}, pr.custom ? { custom: { l: L, d: D, lower: pr.lower, higher: pr.higher } } : {});
 }
 $('addQuote').addEventListener('click', () => {
   const sz = curSize();
-  if (sz.err) { toast(sz.err); return; }
+  if (sz.err) { toast(sz.err); const f = ['l', 'd', 'h'].map((k) => $(SIZE_RULE[k].inp)).find((el) => !el.value.trim() || el.classList.contains('bad')); if (f) f.focus(); return; }
   const n = state.qty;
-  const item = wtItem(sz.L, sz.D, state.ss, ADDONS.filter((a) => state.picked[a.k]).map((a) => a.code), n);
+  const item = wtItem(sz.L, sz.D, state.ss, ADDONS.filter((a) => state.picked[a.k]).map((a) => a.code), n, sz.H);
   const same = quote.find((q) => isWT(q) && finalCode(q) === finalCode(item) && q.size === item.size && (q.ss || '202') === (item.ss || '202'));
   if (same) same.qty += n; else quote.push(item);
   state.qty = 1; state.ss = '202'; render();   /* back to SS 202 after each Add to quote, like the Quote Builder */
@@ -1919,7 +1935,7 @@ function drawStack(band, names, crop) {
     i.style.zIndex = z; i.hidden = !on;
   });
 }
-function drawLayerDims(band, crop, L, D) {
+function drawLayerDims(band, crop, L, D, H) {
   const m = BANDS[band], svg = $('rDims'), res = m.res;
   svg.setAttribute('viewBox', '0 ' + crop[0] + ' ' + res + ' ' + (crop[1] - crop[0]));
   const px = $('rStage').getBoundingClientRect().width || 600, k = res / px, sc = Math.min(1, Math.max(0.62, px / 600)), fs = 13 * sc * k, off = 22 * sc * k;
@@ -1928,14 +1944,14 @@ function drawLayerDims(band, crop, L, D) {
   const segs = (m.TFL && m.FR[1] > m.FL[1])   /* right end nearer: D on the right end, H on the left corner */
     ? { L: seg(m.FL, m.FR, 0, 1), D: seg(m.FR, BR, 1, 0.3), H: [TFL[0] - off, m.FL[1], TFL[0] - off, TFL[1]] }
     : { L: seg(m.FL, m.FR, 0, 1), D: seg(m.FL, m.BL, -1, 0.3), H: [m.TFR[0] + off, m.FR[1], m.TFR[0] + off, m.TFR[1]] };
-  const val = { L: L, D: D, H: 850 }, cx = res / 2, cy = (crop[0] + crop[1]) / 2;
+  const val = { L: L, D: D, H: H }, cx = res / 2, cy = (crop[0] + crop[1]) / 2;
   let out = '<defs><marker id="rHead" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" fill="#1F4FA0"></path></marker></defs>';
   ['L', 'D', 'H'].forEach((key) => {
     const [x1, y1, x2, y2] = segs[key], mx = (x1 + x2) / 2, my = (y1 + y2) / 2, len = Math.hypot(x2 - x1, y2 - y1) || 1;
     let nx = -(y2 - y1) / len, ny = (x2 - x1) / len; if (nx * (mx - cx) + ny * (my - cy) < 0) { nx = -nx; ny = -ny; }
     const tx = mx + nx * fs, ty = my + ny * fs; let ang = Math.atan2(y2 - y1, x2 - x1) * 180 / Math.PI; if (ang >= 90) ang -= 180; if (ang < -90) ang += 180;
     out += '<line x1="' + x1.toFixed(1) + '" y1="' + y1.toFixed(1) + '" x2="' + x2.toFixed(1) + '" y2="' + y2.toFixed(1) + '" stroke="#1F4FA0" stroke-width="2" vector-effect="non-scaling-stroke" marker-start="url(#rHead)" marker-end="url(#rHead)"></line>' +
-      '<text x="' + tx.toFixed(1) + '" y="' + ty.toFixed(1) + '" font-size="' + fs.toFixed(0) + '" text-anchor="middle" dominant-baseline="middle" transform="rotate(' + ang.toFixed(1) + ' ' + tx.toFixed(1) + ' ' + ty.toFixed(1) + ')">' + key + ' ' + val[key] + ' mm</text>';
+      '<text x="' + tx.toFixed(1) + '" y="' + ty.toFixed(1) + '" font-size="' + fs.toFixed(0) + '" text-anchor="middle" dominant-baseline="middle" transform="rotate(' + ang.toFixed(1) + ' ' + tx.toFixed(1) + ' ' + ty.toFixed(1) + ')">' + key + (val[key] ? ' ' + val[key] + ' mm' : '') + '</text>';
   });
   svg.innerHTML = out;
 }
@@ -1952,9 +1968,9 @@ function updateRender() {
     $('rDetail').alt = 'Detail: ' + detail[1];
   } else {
     drawStack(band, names, crop);
-    drawLayerDims(band, crop, sz.L, sz.D);
+    drawLayerDims(band, crop, sz.ok ? sz.L : '', sz.ok ? sz.D : '', sz.ok ? sz.H : '');
     const extras = ADDONS.filter((a) => state.picked[a.k]).map((a) => a.name);
-    $('rStage').setAttribute('aria-label', 'Stainless steel work table, ' + sz.L + ' × ' + sz.D + ' mm' + (extras.length ? ', with ' + extras.join(', ') : ', cross support'));
+    $('rStage').setAttribute('aria-label', 'Stainless steel work table' + (sz.ok ? ', ' + sz.L + ' × ' + sz.D + ' × ' + sz.H + ' mm' : '') + (extras.length ? ', with ' + extras.join(', ') : ', cross support'));
   }
   $('rThumbs').hidden = true;
 }
