@@ -1972,7 +1972,7 @@ function layerImg(name) {
   if (!layerImgs[name]) { const i = document.createElement('img'); i.alt = ''; i.decoding = 'async'; i.dataset.layer = name; $('rLayers').appendChild(i); layerImgs[name] = i; }
   return layerImgs[name];
 }
-const ORDER = ['base', 'S3back', 'feet', 'W4', 'rails', 'U1', 'U2', 'U3', 'G', 'SK', 'C', 'S3sides', 'D', 'B', 'O1', 'O2'];
+const ORDER = ['base', 'S3back', 'feet', 'W4', 'rails', 'U1', 'U2', 'U3', 'G', 'SK', 'C', 'S3sides', 'D', 'B', 'SKtop', 'O1', 'O2'];
 function drawStack(band, names, crop) {
   const m = BANDS[band], res = m.res;
   const stage = $('rStage');
@@ -1987,6 +1987,20 @@ function drawStack(band, names, crop) {
     if (on) { const src = LIMG(band, n); if (i.getAttribute('src') !== src) i.src = src; }
     i.style.zIndex = z; i.hidden = !on;
   });
+  /* SKtop: the sink layer again, cut to everything above the front edge of the work top, so the faucet
+     stands in front of the back splash while the bowl under the top stays behind doors and side covers */
+  const skOn = names.includes('SK') && names.includes('B');
+  if (skOn || layerImgs.SKtop) {
+    const t = layerImg('SKtop');
+    t.hidden = !skOn;
+    if (skOn) {
+      const src = LIMG(band, 'SK'); if (t.getAttribute('src') !== src) t.src = src;
+      const [x1, y1] = m.TFL, [x2, y2] = m.TFR, k = (y2 - y1) / (x2 - x1);
+      const yl = (y1 - x1 * k) / res * 100, yr = (y1 + (res - x1) * k) / res * 100;
+      t.style.clipPath = 'polygon(0% 0%, 100% 0%, 100% ' + yr.toFixed(2) + '%, 0% ' + yl.toFixed(2) + '%)';
+      t.style.zIndex = ORDER.indexOf('SKtop');
+    }
+  }
 }
 function drawLayerDims(band, crop, L, D, H) {
   const m = BANDS[band], svg = $('rDims'), res = m.res;
