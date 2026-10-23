@@ -858,11 +858,14 @@ ADDONS.forEach((a) => {
   b.innerHTML = '<div class="box">' + CHECK + '</div>' + a.icon.replace('width="44" height="44"', 'class="ic" width="30" height="30"') +
     '<span class="txt"><span class="nm"><b>' + a.name + '</b><span class="mono">' + a.code + '</span></span>' +
     '<span class="ds">' + a.desc + '</span>' +
+    '<span class="na" hidden></span>' +
     '</span>' +
     '<span class="pr mono"></span>';
   b.addEventListener('click', () => {
+    if (b.getAttribute('aria-disabled') === 'true') { toast(b.querySelector('.na').textContent); return; }
     const on = !!state.picked[a.k];
     state.picked[a.k] = !on;
+    if (a.k === 'B') state.autoB = false;
     if (!on) (EITHER[a.k] || []).forEach((o) => { state.picked[o] = false; });   /* U1 / U2 / U3, O1 / O2: one or the other */
     if (typeof rView !== 'undefined') rView = 'auto';
     render();
@@ -870,6 +873,16 @@ ADDONS.forEach((a) => {
   $('grid').appendChild(b);
 });
 
+/* work table add-on rules (owner, 23 Oct): a sink only on tables 1200 mm and longer (shorter: the sink units);
+   a granite top cannot go with a sink or a chute */
+const SINK_MIN_L = 1200;
+function wtBlocked(sz, picked) {
+  const out = {};
+  if (!(sz.ok && sz.L >= SINK_MIN_L)) out.SK = 'Only on tables ' + SINK_MIN_L + ' mm and longer. For a shorter table, see our sink units.';
+  if (picked.G) { out.SK = out.SK || 'Not with a granite top.'; out.C = 'Not with a granite top.'; }
+  if ((picked.SK && !out.SK) || picked.C) out.G = 'Not with a sink or chute.';
+  return out;
+}
 function custErr(v, kind) {
   const R = SIZE_RULE[kind];
   if (v === '') return '';
@@ -910,12 +923,21 @@ function render() {
   else if (pr.custom) { msg.className = 'custmsg'; msg.textContent = 'Custom size ' + sz.L + ' × ' + sz.D + ' mm · model number WT-CUS · priced between ' + pr.lower + ' and ' + pr.higher + ' by area.' + hNote; }
   else { msg.className = 'custmsg'; msg.textContent = 'Standard size.' + hNote; }
   let total = pr.base, count = 0;
+  const blocked = wtBlocked(sz, state.picked);
+  if (blocked.SK) state.picked.SK = false;
+  /* a sink always comes with the back splash: ticked and locked while the sink is on */
+  if (state.picked.SK) { if (!state.picked.B) { state.picked.B = true; state.autoB = true; } }
+  else if (state.autoB) { state.picked.B = false; state.autoB = false; }
+  const forced = state.picked.SK ? { B: 'Comes with the sink.' } : {};
   ADDONS.forEach((a) => {
     const b = document.querySelector('.card[data-k="' + a.k + '"]');
+    const why = blocked[a.k] || forced[a.k] || '';
+    if (blocked[a.k]) state.picked[a.k] = false;
     const on = !!state.picked[a.k];
     if (on) { total += pr.ad[a.code]; count++; }
     b.setAttribute('aria-pressed', String(on));
-    b.setAttribute('aria-disabled', 'false');
+    b.setAttribute('aria-disabled', String(!!why));
+    const na = b.querySelector('.na'); na.textContent = why; na.hidden = !why;
     b.querySelector('.pr').textContent = sz.ok ? '+ ' + inr(pr.ad[a.code]) : '';
   });
   total = round2(total);
@@ -1074,6 +1096,16 @@ function selPrice(q) {
   const r = opts.find((a) => a.replace);
   return (r ? r.price : q.price) + opts.filter((a) => !a.replace).reduce((t, a) => t + a.price, 0);
 }
+/* quote tray edit: the same work table rules as the page (sink 1200 mm+, sink brings a locked back splash, granite not with sink / chute) */
+function editRules(q) {
+  if (!isWT(q)) return { blocked: {}, forced: {} };
+  const dm = wtDims(q), sel = {}; editSel.forEach((k) => { sel[k] = true; });
+  const blocked = wtBlocked({ ok: true, L: dm.L, D: dm.D }, sel);
+  Object.keys(blocked).forEach((k) => editSel.delete(k));
+  const forced = editSel.has('SK') ? { B: 'Comes with the sink.' } : {};
+  if (editSel.has('SK')) editSel.add('B');
+  return { blocked: blocked, forced: forced };
+}
 function startEdit(i) {
   editIdx = i;
   editName = quote[i].name; editPrice = quote[i].price; editCode = quote[i].code || '';
@@ -1122,9 +1154,9 @@ function renderQuote() {
     } else if (editing) {
       editor = '<div class="qedit"><div class="qedit-h">Edit options</div><div class="qedit-list">' +
         editAddons(q).map((a) => {
-          const locked = false;
-          return '<label class="optitem' + (locked ? ' locked' : '') + '"><input type="checkbox" class="e-ad" data-k="' + a.k + '"' + (editSel.has(a.k) && !locked ? ' checked' : '') + (locked ? ' disabled' : '') + '>' +
-            '<span><span class="oname">' + esc(a.name) + '</span> <span class="ocode">' + esc(a.code) + '</span>' + '' + '</span>' +
+          const ru = editRules(q), why = ru.blocked[a.k] || ru.forced[a.k] || '', locked = !!why;
+          return '<label class="optitem' + (locked ? ' locked' : '') + '"><input type="checkbox" class="e-ad" data-k="' + a.k + '"' + (editSel.has(a.k) ? ' checked' : '') + (locked ? ' disabled' : '') + '>' +
+            '<span><span class="oname">' + esc(a.name) + '</span> <span class="ocode">' + esc(a.code) + '</span>' + (why ? '<br><small class="owhy">' + esc(why) + '</small>' : '') + '</span>' +
             '<span class="oprice">' + (a.replace ? '= ' : '+ ') + money(a.price) + '</span></label>';
         }).join('') + '</div>' +
         '<div class="irow iunit"><span>Price per unit</span><span class="amt e-each">' + money(selPrice(q)) + '</span></div>' +
@@ -1156,6 +1188,8 @@ function renderQuote() {
       d.querySelectorAll('.e-ad').forEach((cb) => cb.onchange = () => {
         const k = cb.dataset.k;
         if (cb.checked) { editSel.add(k); (EITHER[k] || []).forEach((o) => editSel.delete(o)); } else editSel.delete(k);
+        if (k === 'SK' && !cb.checked) editSel.delete('B');
+        editRules(quote[i]);
         const keepScroll = $('quote').querySelector('.qbody').scrollTop;
         renderQuote();
         $('quote').querySelector('.qbody').scrollTop = keepScroll;
