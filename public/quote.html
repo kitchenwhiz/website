@@ -1945,7 +1945,7 @@ window.addEventListener('resize', () => { if (!$('viewProd').hidden && pState.p)
    The page stacks the layers for the build the customer picks. Files: /images/worktable/layers/<band>/<layer>.webp */
 const BANDS = {"1050": {"res": 1200, "FL": [467.4, 1078.3], "FR": [848.9, 940.0], "BL": [355.0, 957.2], "TFR": [893.3, 597.6], "TFL": [446.5, 722.0], "topY": 378.8, "floorY": 1094.9, "rackY": 108}};
 const BAND_KEYS = Object.keys(BANDS).map(Number).sort((x, y) => x - y);
-const LVER = 'bce90188';   /* change whenever the layer pictures are re-rendered: images are cached for 30 days */
+const LVER = '2a73ae43';   /* change whenever the layer pictures are re-rendered: images are cached for 30 days */
 const LIMG = (b, n) => '/images/worktable/layers/' + b + '/' + n + '.webp?v=' + LVER;
 const DIMG = (n) => '/images/worktable/' + n + '.webp';
 const DETAILS = [];   /* close-ups removed at the owner's request: only the built table is shown */
