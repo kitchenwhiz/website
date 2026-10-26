@@ -90,6 +90,20 @@ export default {
   async fetch(request, env) {
     const url = new URL(request.url);
 
+    // Always https on the main address (http://kitchenwhiz.in/… → https://…)
+    if (url.protocol === "http:" && url.hostname === MAIN_HOST) {
+      url.protocol = "https:";
+      return Response.redirect(url.toString(), 301);
+    }
+    // Old Squarespace links like /?itemId=… or /?product=… → the clean page
+    if (url.hostname === MAIN_HOST && url.search) {
+      const OLD_PARAMS = ["itemid", "product", "format", "category", "tag", "author", "month", "offset", "view", "reversepaginate", "nochrome"];
+      const keys = [...url.searchParams.keys()].map(k => k.toLowerCase());
+      if (keys.some(k => OLD_PARAMS.includes(k)) && !url.pathname.startsWith("/shop/") && !url.pathname.startsWith("/quote")) {
+        url.search = "";
+        return Response.redirect(url.toString(), 301);
+      }
+    }
     if (REDIRECT_HOSTS.has(url.hostname)) {
       url.protocol = "https:";
       url.hostname = MAIN_HOST;
